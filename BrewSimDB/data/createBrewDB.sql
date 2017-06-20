@@ -3,7 +3,7 @@ DROP DATABASE IF EXISTS BrewSimDB;
 CREATE DATABASE BrewSimDB;
 
 USE BrewSimDB;
-git
+
 
 CREATE TABLE grain(
 	#Below is generic ingredient attributes
