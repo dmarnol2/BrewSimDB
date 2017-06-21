@@ -8,7 +8,6 @@ var mysql = require('mysql');
 
 var databaseHandler = require('./modules/databaseHandler');
 var users = require('./routes/users');
-
 var app = express();
 
 //  engine setup
@@ -43,6 +42,10 @@ app.get('/', function(req, res) {
         hops_type = {'print' : result};
         res.render('index', hops_type);
     })
+});
+
+app.get('/query', function(req, res) {
+  res.render('QueryUI');
 });
 
 // catch 404 and forward to error handler
