@@ -5,9 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
-var execSQL = require('exec-sql');
-var databaseHandler = require('./modules/databaseHandler');
 
+var databaseHandler = require('./modules/databaseHandler');
 var users = require('./routes/users');
 
 var app = express();
@@ -31,16 +30,19 @@ var dotenv = require('dotenv');
 dotenv.load();
 
 //DB setup, initialize FIRST then connect.
-databaseHandler.initializeDatabase(__dirname + '\\data');
+databaseHandler.initializeDatabase(path.join(__dirname, 'data'));
 
 var hops_type = {};
 app.get('/', function(req, res) {
+    // for whatever reason (probably async) if I put the connect line directly below the initializeDatabase line it can't connect because the database doesn't exist yet. Putting it here gives the database initialization time to complete first.
     databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
     console.log("entered into main page.");
-    var hopInfo = databaseHandler.getHops('*');
-    console.log('returned this: ' + hopInfo);
-    hops_type = {'print' : hopInfo};
-    res.render('index', hops_type);
+    // pass null to get all hops.
+    databaseHandler.getHops(null, function (result) {
+        console.log('returned this: ' + result);
+        hops_type = {'print' : result};
+        res.render('index', hops_type);
+    })
 });
 
 // catch 404 and forward to error handler

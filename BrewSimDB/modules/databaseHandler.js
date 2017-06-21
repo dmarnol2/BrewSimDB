@@ -31,23 +31,19 @@ function disconnect() {
     connection = null;
 }
 
-function getHops(hopName) {
-    console.log('entered into getHops function with hop: ' + hopName);
-    //var sql = 'SELECT * FROM hops WHERE hops.name = ?;'
-    var sql = 'SELECT * FROM hops;'
-    console.log(sql);
-    var toReturn = {};
+function getHops(hopName, callback) {
+    var sql = 'SELECT * FROM hops WHERE name = ?;'
+    if(hopName == null)
+        sql = 'SELECT * FROM hops;'
 
     connection.connect(function(err) {
         if (err) throw err;
-        connection.query(sql, function (err, result) {
+        connection.query(sql,[hopName], function (err, result) {
             if (err) throw err;
+            else callback(result);
             console.log(result);
-            toReturn = result;
         });
     });
-
-    return toReturn;
 }
 
 
