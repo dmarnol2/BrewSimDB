@@ -47,8 +47,22 @@ function getHops(hopName, callback) {
 }
 function getHopsByRecipeName(recipeName, callback) {
     var sql = 'SELECT DISTINCT hops.*, hops_in_recipe.amount, hops_in_recipe.exposure_time ' +
-        'FROM hops,beer_recipe, hops_in_recipe ' +
+        'FROM hops, beer_recipe, hops_in_recipe ' +
         'WHERE beer_recipe.name = ? AND beer_recipe.id = hops_in_recipe.recipe_id AND hops.id = hops_in_recipe.hops_id;';
+    console.log(sql);
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[recipeName], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getGrainsByRecipeName(recipeName, callback) {
+    var sql = 'SELECT DISTINCT grain.*, grain_in_recipe.amount ' +
+        'FROM grain, beer_recipe, grain_in_recipe ' +
+        'WHERE beer_recipe.name = ? AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id;';
     console.log(sql);
     connection.connect(function(err) {
         if (err) throw err;
@@ -61,4 +75,5 @@ function getHopsByRecipeName(recipeName, callback) {
 }
 
 
-module.exports = {'connect': connect, 'disconnect': disconnect,'initializeDatabase': initializeDatabase, 'getHops': getHops, 'getHopsByRecipeName': getHopsByRecipeName};
+module.exports = {'connect': connect, 'disconnect': disconnect,'initializeDatabase': initializeDatabase,
+'getHops': getHops, 'getHopsByRecipeName': getHopsByRecipeName, 'getGrainsByRecipeName': getGrainsByRecipeName};

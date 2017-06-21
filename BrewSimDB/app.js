@@ -31,16 +31,16 @@ dotenv.load();
 //DB setup, initialize FIRST then connect.
 databaseHandler.initializeDatabase(path.join(__dirname, 'data'));
 
-var hops_type = {};
+var display_type = {};
 app.get('/', function(req, res) {
     // for whatever reason (probably async) if I put the connect line directly below the initializeDatabase line it can't connect because the database doesn't exist yet. Putting it here gives the database initialization time to complete first.
     databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
     console.log("entered into main page.");
     // pass null to get all hops.
-    databaseHandler.getHopsByRecipeName('Hoppiness is an IPA', function (result) {
+    databaseHandler.getGrainsByRecipeName('Hoppiness is an IPA', function (result) {
         console.log('returned this: ' + result);
-        hops_type = {'print' : result};
-        res.render('index', hops_type);
+        display_type = {'print' : result};
+        res.render('index', display_type);
     })
 });
 
