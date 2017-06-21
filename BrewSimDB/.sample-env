@@ -1,2 +1,3 @@
 DB_NAME='*your database name here*'
 DB_USER='*your db user name (probably root) here*'
+DB_PASSWORD='*your password, if you dont have one leave an empty string'
