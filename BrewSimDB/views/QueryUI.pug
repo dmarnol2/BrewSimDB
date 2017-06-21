@@ -1,84 +1,73 @@
-html
-  head
-    title DB Query
-    style.
-      label
-      {
-      width: 100px;
-      padding-right: 50px;
-      text-align: left;
-      }
-      body{
-      background-color: #E1CD81
-      }
-  body
-    h3  Query the Brewsim Database 
-    form
-      p Find hops within a certain Alpha Acid range:
-      | Beginning value: 
-      input(type='number', name='HopRangeStart')
-      | Ending value:
-      input(type='number', name='HopRangeEnd')
-      input(type='Submit', name='submitRange', value='Submit')
-      br
-      br
-      p Find beers within a certain IBU (Bitterness) range:
-      | Beginning value: 
-      input(type='number', name='IBURangeStart')
-      | Ending value:
-      input(type='number', name='IBURangeEnd')
-      input(type='Submit', name='submitIBU', value='Submit')
-      br
-      br
-      p Find beers within a certain ABV (% Alcohol) range:
-      | Beginning value: 
-      input(type='number', name='IBURangeStart')
-      | Ending value:
-      input(type='number', name='IBURangeEnd')
-      input(type='Submit', name='submitIBU', value='Submit')
-      br
-      br
-      p Search recipes containing:
-      input(type='checkbox', value='Barley')
-      label(for='Barley') Barley
-      input(type='checkbox', value='Cascade')
-      label(for='Cascade') Cascade
-      br
-      input(type='checkbox', value='Wheat')
-      label(for='Wheat') Wheat
-      input(type='checkbox', value='Chinook')
-      label(for='Chinook') Chinook
-      br
-      input(type='checkbox', value='Oat')
-      label(for='Oat') Oat
-      input(type='checkbox', value='Citra')
-      label(for='Citra') Citra
-      br
-      input(type='checkbox', value='Rice')
-      label(for='Rice') Rice
-      input(type='checkbox', value='Simcoe')
-      label(for='Simcoe') Simcoe
-      br
-      input(type='checkbox', value='Corn')
-      label(for='Corn') Corn
-      input(type='checkbox', value='Mosaic')
-      label(for='Mosaic') Mosaic
-      br
-      input(type='checkbox', value='Rye')
-      label(for='Rye') Rye
-      input(type='checkbox', value='Cluster')
-      label(for='Cluster') Cluster
-      input(type='Submit', name='submitGrain', value='Submit')
-      br
-      br
-    p Search recipes containing yeast from:
-    select
-      option(value='') Select Region
-      option(value='American') American
-      option(value='Irish') Irish
-      option(value='Belgian') Belgian
-      option(value='English') English
-      option(value='German') German
-    input(type='Submit', name='submitRegion', value='Submit')
+extends layout
+
+block content
+  h3  Query the Brewsim Database 
+  form
+    p Find hops within a certain Alpha Acid range:
+    | Beginning value: 
+    input(type='number', name='HopRangeStart')
+    | Ending value:
+    input(type='number', name='HopRangeEnd')
+    input(type='Submit', name='submitRange', value='Submit')
     br
     br
+    p Find beers within a certain IBU (Bitterness) range:
+    | Beginning value: 
+    input(type='number', name='IBURangeStart')
+    | Ending value:
+    input(type='number', name='IBURangeEnd')
+    input(type='Submit', name='submitIBU', value='Submit')
+    br
+    br
+    p Find beers within a certain ABV (% Alcohol) range:
+    | Beginning value: 
+    input(type='number', name='IBURangeStart')
+    | Ending value:
+    input(type='number', name='IBURangeEnd')
+    input(type='Submit', name='submitIBU', value='Submit')
+    br
+    br
+    p Search recipes containing:
+    input(type='checkbox', value='Barley')
+    label(for='Barley') Barley
+    input(type='checkbox', value='Cascade')
+    label(for='Cascade') Cascade
+    br
+    input(type='checkbox', value='Wheat')
+    label(for='Wheat') Wheat
+    input(type='checkbox', value='Chinook')
+    label(for='Chinook') Chinook
+    br
+    input(type='checkbox', value='Oat')
+    label(for='Oat') Oat
+    input(type='checkbox', value='Citra')
+    label(for='Citra') Citra
+    br
+    input(type='checkbox', value='Rice')
+    label(for='Rice') Rice
+    input(type='checkbox', value='Simcoe')
+    label(for='Simcoe') Simcoe
+    br
+    input(type='checkbox', value='Corn')
+    label(for='Corn') Corn
+    input(type='checkbox', value='Mosaic')
+    label(for='Mosaic') Mosaic
+    br
+    input(type='checkbox', value='Rye')
+    label(for='Rye') Rye
+    input(type='checkbox', value='Cluster')
+    label(for='Cluster') Cluster
+    input(type='Submit', name='submitGrain', value='Submit')
+    br
+    br
+  p Search recipes containing yeast from:
+  select
+    option(value='') Select Region
+    option(value='American') American
+    option(value='Irish') Irish
+    option(value='Belgian') Belgian
+    option(value='English') English
+    option(value='German') German
+  input(type='Submit', name='submitRegion', value='Submit')
+  br
+  br

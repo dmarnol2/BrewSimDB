@@ -8,7 +8,6 @@ var mysql = require('mysql');
 var execSQL = require('exec-sql');
 
 var users = require('./routes/users');
-
 var app = express();
 
 //  engine setup
@@ -32,7 +31,7 @@ dotenv.load();
 //DB setup
 
 execSQL.connect('', process.env.DB_USER, process.env.DB_PASSWORD); // first field, database name, intentionally left as empty string. The script creates the database.
-execSQL.executeDirectory(__dirname+'\\data', function(err) {
+execSQL.executeDirectory(__dirname+'/data', function(err) {
     if(err) throw err;
     execSQL.disconnect();
     console.log('Done executing directory ' + __dirname + '\\data');
@@ -73,7 +72,7 @@ var connection = mysql.createConnection({
 
 
 
-
+// routes
 
 var hops_type = {};
 app.get('/', function(req, res) {
@@ -84,6 +83,10 @@ app.get('/', function(req, res) {
     hops_type = {'print' : result};
     res.render('index', hops_type);
   });
+});
+
+app.get('/query', function(req, res) {
+  res.render('QueryUI');
 });
 
 // catch 404 and forward to error handler
