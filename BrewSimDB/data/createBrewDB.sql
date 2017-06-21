@@ -1,9 +1,8 @@
+# This should only be run once, to create all the tables for the database.
+
 DROP DATABASE IF EXISTS BrewSimDB;
-
 CREATE DATABASE BrewSimDB;
-
 USE BrewSimDB;
-
 
 CREATE TABLE grain(
 	#Below is generic ingredient attributes
@@ -24,7 +23,7 @@ CREATE TABLE hops(
 	#Below is unique attributes
 	region VARCHAR(30),
 	alpha_acid DOUBLE(3,1) NOT NULL, #3 = max digits, 1 = precision right of decimal
-	purpose SET('bitter','aroma'),
+	purpose ENUM('bitter','aroma','dual'),
 	aroma VARCHAR(120)
 );
 
@@ -60,7 +59,7 @@ CREATE TABLE beer_recipe(
 CREATE TABLE beer_style(
 	id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	name VARCHAR(30) NOT NULL,
-	description VARCHAR(255) NOT NULL,
+	description VARCHAR(255),
 	origin VARCHAR(30),
 	min_bitterness DOUBLE(5,1) NOT NULL, # could be over 100
 	max_bitterness DOUBLE(5,1) NOT NULL, # could be over 100, highest found was 2500
@@ -83,7 +82,7 @@ CREATE TABLE style_of_recipe(
 	FOREIGN KEY (style_id)
 		REFERENCES beer_style(id)
 		ON UPDATE CASCADE ON DELETE CASCADE, # need to determine if this is correct...
-	FOREIGN KEY (recipe_id) 
+	FOREIGN KEY (recipe_id)
 		REFERENCES beer_recipe(id)
 		ON UPDATE CASCADE ON DELETE CASCADE # need to determine if this is correct...
 );
@@ -93,10 +92,10 @@ CREATE TABLE grain_in_recipe(
 	recipe_id INT NOT NULL,
 	amount INT NOT NULL,
 	PRIMARY KEY (grain_id, recipe_id),
-	FOREIGN KEY (recipe_id) 
+	FOREIGN KEY (recipe_id)
 		REFERENCES beer_recipe(id)
 		ON UPDATE CASCADE ON DELETE CASCADE, # need to determine if this is correct...
-	FOREIGN KEY (grain_id) 
+	FOREIGN KEY (grain_id)
 		REFERENCES grain(id)
 		ON UPDATE CASCADE ON DELETE CASCADE # need to determine if this is correct...
 );
@@ -107,10 +106,10 @@ CREATE TABLE hops_in_recipe(
 	amount INT NOT NULL,
 	exposure_time INT NOT NULL,
 	PRIMARY KEY (hops_id, recipe_id, exposure_time),
-	FOREIGN KEY (recipe_id) 
+	FOREIGN KEY (recipe_id)
 		REFERENCES beer_recipe(id)
 		ON UPDATE CASCADE ON DELETE CASCADE, # need to determine if this is correct...
-	FOREIGN KEY (hops_id) 
+	FOREIGN KEY (hops_id)
 		REFERENCES hops(id)
 		ON UPDATE CASCADE ON DELETE CASCADE # need to determine if this is correct...
 );
@@ -119,10 +118,10 @@ CREATE TABLE yeast_in_recipe(
 	yeast_id INT NOT NULL,
 	recipe_id INT NOT NULL,
 	PRIMARY KEY (recipe_id), # because only 1 yeast per recipe
-	FOREIGN KEY (recipe_id) 
+	FOREIGN KEY (recipe_id)
 		REFERENCES beer_recipe(id)
 		ON UPDATE CASCADE ON DELETE CASCADE, # need to determine if this is correct...
-	FOREIGN KEY (yeast_id) 
+	FOREIGN KEY (yeast_id)
 		REFERENCES yeast(id)
 		ON UPDATE CASCADE ON DELETE CASCADE # need to determine if this is correct...
 );
@@ -133,10 +132,10 @@ CREATE TABLE additive_in_recipe(
 	amount INT NOT NULL,
 	exposure_time INT NOT NULL,
 	PRIMARY KEY (additive_id, recipe_id, exposure_time),
-	FOREIGN KEY (recipe_id) 
+	FOREIGN KEY (recipe_id)
 		REFERENCES beer_recipe(id)
 		ON UPDATE CASCADE ON DELETE CASCADE, # need to determine if this is correct...
-	FOREIGN KEY (additive_id) 
+	FOREIGN KEY (additive_id)
 		REFERENCES additive(id)
 		ON UPDATE CASCADE ON DELETE CASCADE # need to determine if this is correct...
 );
@@ -147,37 +146,10 @@ CREATE TABLE recipe_scales_to_equipment(
     batch_size INT,
     efficiency INT,
 	PRIMARY KEY (equipment_id, recipe_id),
-	FOREIGN KEY (recipe_id) 
+	FOREIGN KEY (recipe_id)
 		REFERENCES beer_recipe(id)
 		ON UPDATE CASCADE ON DELETE CASCADE, # need to determine if this is correct...
-	FOREIGN KEY (equipment_id) 
+	FOREIGN KEY (equipment_id)
 		REFERENCES equipment(id)
 		ON UPDATE CASCADE ON DELETE CASCADE # need to determine if this is correct...
 );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
