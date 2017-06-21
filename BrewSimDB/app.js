@@ -11,7 +11,7 @@ var users = require('./routes/users');
 
 var app = express();
 
-// view engine setup
+//  engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -26,6 +26,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/users', users);
 
+var dotenv = require('dotenv');
+dotenv.load();
+
 //DB setup
 
 execSQL.connect('', 'root', '');
@@ -38,8 +41,8 @@ execSQL.executeDirectory(__dirname+'\\data', function(err) {
 
 var connection = mysql.createConnection({
     host    : 'localhost',
-    user    : 'root',
-    database: 'BREWSIMDB'
+    user    : process.env.DB_USER,
+    database: process.env.DB_NAME
 });
 
 /*connection.connect(function(err){
@@ -99,6 +102,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-app.listen(3000);
+app.listen(3000, function() {
+  console.log(process.env.DB_USER)
+});
 
 module.exports = app;
