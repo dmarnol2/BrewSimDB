@@ -13,10 +13,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 You will need to install npm, node.js, express.js, pug, mysql.
 
-```
-Give examples
-```
-
 ### Installing
 
 A step by step series of examples that tell you have to get a development env running
@@ -44,17 +40,6 @@ localhost:3000
 
 Explain how to run the automated tests for this system
 
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-## Deployment
-
-Add additional notes about how to deploy this on a live system
 
 ## Built With
 
