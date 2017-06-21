@@ -37,7 +37,7 @@ app.get('/', function(req, res) {
     databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
     console.log("entered into main page.");
     // pass null to get all hops.
-    databaseHandler.getHops(null, function (result) {
+    databaseHandler.getHopsByRecipeName('Hoppiness is an IPA', function (result) {
         console.log('returned this: ' + result);
         hops_type = {'print' : result};
         res.render('index', hops_type);
