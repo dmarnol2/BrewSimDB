@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var execSQL = require('exec-sql');
+var databaseHandler = require('./modules/databaseHandler');
 
 var users = require('./routes/users');
 
@@ -29,82 +30,38 @@ app.use('/users', users);
 var dotenv = require('dotenv');
 dotenv.load();
 
-//DB setup
-
-execSQL.connect('', process.env.DB_USER, process.env.DB_PASSWORD); // first field, database name, intentionally left as empty string. The script creates the database.
-execSQL.executeDirectory(__dirname+'\\data', function(err) {
-    if(err) throw err;
-    execSQL.disconnect();
-    console.log('Done executing directory ' + __dirname + '\\data');
-});
-
-
-var connection = mysql.createConnection({
-    host    : 'localhost',
-    user    : process.env.DB_USER,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD
-});
-
-/*connection.connect(function(err){
-    if(err) throw err;
-    console.log("Connected to database.");
-    connection.query("DROP DATABASE IF EXISTS brewsimdb", function(err, result){
-        if(err) throw err;
-        console.log(result);
-    });
-    connection.query("CREATE DATABASE brewsimdb", function(err, result){
-        if(err) throw err;
-        console.log(result);
-    });
-    connection.query("USE brewsimdb", function(err, result){
-        if(err) throw err;
-        console.log(result);
-    });
-});*/
-
-
-
-
-
-
-
-
-
-
-
-
+//DB setup, initialize FIRST then connect.
+databaseHandler.initializeDatabase(__dirname + '\\data');
 
 var hops_type = {};
 app.get('/', function(req, res) {
+    databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
     console.log("entered into main page.");
-  connection.query('SELECT * FROM hops;', function (err, result) {
-    if (err) throw err
-    console.log("Got this for ya!" + result);
-    hops_type = {'print' : result};
+    var hopInfo = databaseHandler.getHops('*');
+    console.log('returned this: ' + hopInfo);
+    hops_type = {'print' : hopInfo};
     res.render('index', hops_type);
-  });
 });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+    // render the error page
+    res.status(err.status || 500);
+    res.render('error');
 });
 app.listen(3000, function() {
-  console.log(process.env.DB_USER)
+    console.log(process.env.DB_USER)
 });
 
 module.exports = app;
