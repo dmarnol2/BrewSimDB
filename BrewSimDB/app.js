@@ -42,7 +42,8 @@ execSQL.executeDirectory(__dirname+'\\data', function(err) {
 var connection = mysql.createConnection({
     host    : 'localhost',
     user    : process.env.DB_USER,
-    database: process.env.DB_NAME
+    database: process.env.DB_NAME,
+    password: process.env.DB_PASSWORD
 });
 
 /*connection.connect(function(err){
