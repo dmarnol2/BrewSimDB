@@ -1,0 +1,2 @@
+DB_NAME='*your database name here*'
+DB_USER='*your db user name (probably root) here*'
