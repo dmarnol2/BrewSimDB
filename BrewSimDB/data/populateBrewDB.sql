@@ -1,94 +1,85 @@
 # This should only be run once, right after running createBrewDB.
 
 # Hops Table
-INSERT INTO hops(name, alpha_acid, purpose)
-VALUES('Cascade 5.5AA', 5.5,'aroma');
-INSERT INTO hops(name, alpha_acid, purpose)
-VALUES('Centennial 9AA', 9,'dual');
-INSERT INTO hops(name, alpha_acid, purpose)
-VALUES('Horizon 13AA', 13,'bitter');
-INSERT INTO hops(name, alpha_acid, purpose)
-VALUES('Amarillo 9AA', 9,'dual');
-INSERT INTO hops(name, alpha_acid, purpose)
-VALUES('Simcoe 12AA', 12,'bitter');
+INSERT INTO hops(name, description, alpha_acid, purpose)
+VALUES('Cascade 5.5AA', null, 5.5,'aroma'),
+  ('Centennial 9AA', null, 9,'dual'),
+  ('Horizon 13AA', null, 13,'bitter'),
+  ('Amarillo 9AA', null, 9,'dual'),
+  ('Simcoe 12AA', null, 12,'bitter');
 
 # Grain Table
 INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Vienna Malt', 35, 4);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('White Wheat Malt', 37, 2);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Victory Malt', 34, 25);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Dextrin (carapils)', 33, 1);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Black Barley', 25, 525);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Crystal Malt 10', 34, 10);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Crystal Malt 20', 34, 20);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Crystal Malt 30', 34, 30);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Crystal Malt 40', 34, 40);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Crystal Malt 50', 34, 50);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Crystal Malt 60', 34, 60);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Crystal Malt 70', 34, 70);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Crystal Malt 80', 34, 80);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Crystal Malt 90', 34, 90);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Crystal Malt 120', 34, 120);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('2-row Pale Malt', 37, 1);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('6-row Pale Malt', 35, 1);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Special Roast', 35, 50);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Wheat Malt', 38, 2);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Chocolate Malt', 34, 350);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('RoastedBarley', 25, 300);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Munich Malt', 34, 10);
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Black Patent Malt', 26, 500);
+VALUES('Vienna Malt', 35, 4),
+  ('White Wheat Malt', 37, 2),
+  ('Victory Malt', 34, 25),
+  ('Dextrin (carapils)', 33, 1),
+  ('Black Barley', 25, 525),
+  ('Crystal Malt 10', 34, 10),
+  ('Crystal Malt 20', 34, 20),
+  ('Crystal Malt 30', 34, 30),
+  ('Crystal Malt 40', 34, 40),
+  ('Crystal Malt 50', 34, 50),
+  ('Crystal Malt 60', 34, 60),
+  ('Crystal Malt 70', 34, 70),
+  ('Crystal Malt 80', 34, 80),
+  ('Crystal Malt 90', 34, 90),
+  ('Crystal Malt 120', 34, 120),
+  ('2-row Pale Malt', 37, 1),
+  ('6-row Pale Malt', 35, 1),
+  ('Special Roast', 35, 50),
+  ('Wheat Malt', 38, 2),
+  ('Chocolate Malt', 34, 350),
+  ('RoastedBarley', 25, 300),
+  ('Munich Malt', 34, 10),
+  ('Black Patent Malt', 26, 500);
 
 # Yeast Table
-INSERT INTO yeast(name, apparent_attenuation, yeast_type)
-VALUES('WLP001 California Ale', 0.75, 'ale');
+INSERT INTO yeast(name, region, apparent_attenuation, yeast_type)
+VALUES('WLP001 California Ale', 'American', 0.75, 'ale'),
+  ('WLP002 English Ale Yeast', 'English', 0.68, 'ale'),
+  ('WLP004 Irish Ale Yeast', 'Irish', 0.72, 'ale'),
+  ('WLP005 British Ale Yeast', 'English', 0.71, 'ale'),
+  ('WLP008 East Coast Ale Yeast', 'English', 0.72, 'ale'),
+  ('WLP009 Australian Ale Yeast', 'Australian', 0.71, 'ale'),
+  ('WLP011 European Ale Yeast', 'European', 0.68, 'ale'),
+  ('WLP028 Edinburgh Scottish Ale Yeast', 'Scottish', 0.72, 'ale'),
+  ('WLP029 German/Kölsch Ale Yeast', 'German', 0.76, 'ale'),
+  ('WLP036 Düsseldorf Alt Ale Yeast', 'German', 0.69, 'ale'),
+  ('WLP080 Cream Ale Yeast Blend', 'American', 0.78, 'ale'),
+  ('WLP085 English Ale Yeast Blend', 'English', 0.71, 'ale'),
+  ('WLP800 Pilsner Lager Yeast', 'European', 0.73, 'lager'),
+  ('WLP810 San Francisco Lager Yeast', 'American', 0.68, 'lager'),
+  ('WLP820 Oktoberfest/Märzen Lager Yeast', 'German', 0.70, 'lager'),
+  ('WLP830 German Lager Yeast', 'German', 0.77, 'lager'),
+  ('WLP840 American Lager Yeast', 'American', 0.78, 'lager'),
+  ('WLP940 Mexican Lager Yeast', 'Mexican', 0.74, 'lager'),
+  ('WLP300 Hefeweizen Ale Yeast', 'German', 0.74, 'ale'),
+  ('WLP320 American Hefeweizen Ale Yeast', 'American', 0.73, 'ale'),
+  ('WLP400 Belgian Wit Ale Yeast', 'Belgian', 0.76, 'ale'),
+  ('WLP545 Belgian Strong Ale Yeast', 'Belgian', 0.81, 'ale'),
+  ('WLP568 Belgian-Style Saison Ale Yeast Blend', 'Belgian', 0.75, 'ale'),
+  ('WLP570 Belgian Golden Ale Yeast', 'Belgian', 0.76, 'ale'),
+  ('WLP630 Berliner Weisse Blend', 'Berlin', 0.77, 'other'),
+  ('WLP665 Flemish Ale Blend', 'Belgian', 0.71, 'ale'),
+  ('WLP670 American Farmhouse Blend', 'American', 0.79, 'ale');
 
 # Beer Style Table
 INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
-VALUES('American Imperial Porter', 35, 50, 39, 40, 7, 12);
-INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
-VALUES('Hefeweizen', 10, 15, 3, 9, 4.9, 5.6);
-INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
-VALUES('American Brown Ale', 25, 45, 5, 26, 4, 6.4);
-INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
-VALUES('Belgian Saison', 20, 38, 5, 7, 4.4,6.8);
-INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
-VALUES('American Lager', 5, 15, 2, 6, 3.2, 4);
-INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
-VALUES('Kolsch', 18, 28, 3, 6, 4.8, 5.3);
-INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
-VALUES('American IPA', 50, 70, 6, 12, 6.3, 7.5);
-INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
-VALUES('American Stout', 35, 60, 39, 40, 5.7, 8.9);
-INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
-VALUES('American Imperial IPA', 65, 100, 5, 15, 7.5, 10.5);
-INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
-VALUES('American Pale Ale', 20, 50, 3, 14, 4.2, 6.2);
+VALUES('American Imperial Porter', 35, 50, 39, 40, 7, 12),
+  ('Hefeweizen', 10, 15, 3, 9, 4.9, 5.6),
+  ('American Brown Ale', 25, 45, 5, 26, 4, 6.4),
+  ('Belgian Saison', 20, 38, 5, 7, 4.4,6.8),
+  ('American Lager', 5, 15, 2, 6, 3.2, 4),
+  ('Kolsch', 18, 28, 3, 6, 4.8, 5.3),
+  ('American IPA', 50, 70, 6, 12, 6.3, 7.5),
+  ('American Stout', 35, 60, 39, 40, 5.7, 8.9),
+  ('American Imperial IPA', 65, 100, 5, 15, 7.5, 10.5),
+  ('American Pale Ale', 20, 50, 3, 14, 4.2, 6.2);
 
 # Beer Recipes constructed below
 
-# Build recipe for Hoppiness is and IPA American IPA
+# Build recipe for Hoppiness is an IPA American IPA
 INSERT INTO beer_recipe(name, boil_time, description, instructions)
 VALUES('Hoppiness is an IPA', 60, 'For those in the “pursuit of hoppiness,” you won’t want to miss this one! With a nice variety of hops, this beer from Brewing Classic Styles by Jamil Zainasheff and John J. Palmer, is perfect for those who can’t get enough of hops.','https://www.homebrewersassociation.org/homebrew-recipe/beer-recipe-of-the-week-hoppiness-is-an-ipa/');
 # grabs last auto_increment id used
