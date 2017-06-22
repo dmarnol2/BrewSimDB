@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mysql = require('mysql');
+var expressValidator = require('express-validator');
 
 var databaseHandler = require('./modules/databaseHandler');
 var users = require('./routes/users');
@@ -22,6 +23,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Express validator middleware
+app.use(expressValidator({
+  errorFormatter: function(param, msg, value) {
+      var namespace = param.split('.')
+      , root    = namespace.shift()
+      , formParam = root;
+
+    while(namespace.length) {
+      formParam += '[' + namespace.shift() + ']';
+    }
+    return {
+      param : formParam,
+      msg   : msg,
+      value : value
+    };
+  }
+}));
+
 
 app.use('/users', users);
 
@@ -31,16 +50,16 @@ dotenv.load();
 //DB setup, initialize FIRST then connect.
 databaseHandler.initializeDatabase(path.join(__dirname, 'data'));
 
-var display_type = {};
+var hops_type = {};
 app.get('/', function(req, res) {
     // for whatever reason (probably async) if I put the connect line directly below the initializeDatabase line it can't connect because the database doesn't exist yet. Putting it here gives the database initialization time to complete first.
     databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
     console.log("entered into main page.");
     // pass null to get all hops.
-    databaseHandler.getGrainsByRecipeName('Hoppiness is an IPA', function (result) {
+    databaseHandler.getHops(null, function (result) {
         console.log('returned this: ' + result);
-        display_type = {'print' : result};
-        res.render('index', display_type);
+        hops_type = {'print' : result};
+        res.render('index', hops_type);
     })
 });
 
