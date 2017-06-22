@@ -5,15 +5,16 @@
 var mysql     =    require('mysql');
 var execSQL   =    require('exec-sql');
 
-var connection = null;
+var pool = null;
 
 function connect(db, user, password) {
-    connection = mysql.createConnection({
+
+    pool  = mysql.createPool({
+        connectionLimit : 10,
         host     : 'localhost',
         database : db,
         user     : user,
         password : password,
-        multipleStatements: true
     });
 }
 function initializeDatabase(dir) {
@@ -25,79 +26,62 @@ function initializeDatabase(dir) {
     });
 }
 function disconnect() {
-    connection.end();
-    connection = null;
+    pool.disconnect;
+    pool = null;
 }
+
 function getAllHops(callback) {
     var sql = 'SELECT * FROM hops;'
 
-    connection.connect(function(err) {
+    pool.query(sql, function (err, result) {
         if (err) throw err;
-        connection.query(sql, function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getAllGrain(callback) {
     var sql = 'SELECT * FROM grain;'
 
-    connection.connect(function(err) {
+    pool.query(sql, function (err, result) {
         if (err) throw err;
-        connection.query(sql, function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getAllYeast(callback) {
     var sql = 'SELECT * FROM yeast;'
 
-    connection.connect(function(err) {
+    pool.query(sql, function (err, result) {
         if (err) throw err;
-        connection.query(sql, function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getAllAdditive(callback) {
     var sql = 'SELECT * FROM additive;'
 
-    connection.connect(function(err) {
+    pool.query(sql, function (err, result) {
         if (err) throw err;
-        connection.query(sql, function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getAllBeerRecipe(callback) {
     var sql = 'SELECT * FROM beer_recipe;'
 
-    connection.connect(function(err) {
+    pool.query(sql, function (err, result) {
         if (err) throw err;
-        connection.query(sql, function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getAllBeerStyle(callback) {
     var sql = 'SELECT * FROM beer_style;'
 
-    connection.connect(function(err) {
+    pool.query(sql, function (err, result) {
         if (err) throw err;
-        connection.query(sql, function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getHopsByRecipeName(recipeName, callback) {
@@ -105,13 +89,10 @@ function getHopsByRecipeName(recipeName, callback) {
         'FROM hops, beer_recipe, hops_in_recipe ' +
         'WHERE beer_recipe.name = ? AND beer_recipe.id = hops_in_recipe.recipe_id AND hops.id = hops_in_recipe.hops_id;';
     console.log(sql);
-    connection.connect(function(err) {
+    pool.query(sql,[recipeName], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[recipeName], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getGrainByRecipeName(recipeName, callback) {
@@ -119,13 +100,10 @@ function getGrainByRecipeName(recipeName, callback) {
         'FROM grain, beer_recipe, grain_in_recipe ' +
         'WHERE beer_recipe.name = ? AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id;';
     console.log(sql);
-    connection.connect(function(err) {
+    pool.query(sql,[recipeName], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[recipeName], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getYeastByRecipeName(recipeName, callback) {
@@ -133,13 +111,10 @@ function getYeastByRecipeName(recipeName, callback) {
         'FROM yeast, beer_recipe, yeast_in_recipe ' +
         'WHERE beer_recipe.name = ? AND beer_recipe.id = yeast_in_recipe.recipe_id AND yeast.id = yeast_in_recipe.yeast_id;';
     console.log(sql);
-    connection.connect(function(err) {
+    pool.query(sql,[recipeName], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[recipeName], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getAdditiveByRecipeName(recipeName, callback) {
@@ -147,194 +122,154 @@ function getAdditiveByRecipeName(recipeName, callback) {
         'FROM additive, beer_recipe, additive_in_recipe ' +
         'WHERE beer_recipe.name = ? AND beer_recipe.id = additive_in_recipe.recipe_id AND additive.id = additive_in_recipe.additive_id;';
     console.log(sql);
-    connection.connect(function(err) {
+    pool.query(sql,[recipeName], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[recipeName], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
-
-
 function getHopsByName(name, callback) {
     var sql = 'SELECT * FROM hops WHERE name LIKE ?;'
     name = '\%' + name + '\%';
 
-    connection.connect(function(err) {
+    pool.query(sql,[name], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[name], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getHopsByAA(minAA, maxAA, callback) {
     var sql = 'SELECT * FROM hops WHERE alpha_acid >= ? AND alpha_acid <= ?;'
 
-    connection.connect(function(err) {
+    pool.query(sql,[minAA, maxAA], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[minAA, maxAA], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getHopsByPurpose(purpose, callback) {
     var sql = 'SELECT * FROM hops WHERE purpose = ? OR purpose = "dual";'
 
-    connection.connect(function(err) {
+    pool.query(sql,[purpose], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[purpose], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getYeastByName(name, callback) {
     var sql = 'SELECT * FROM yeast WHERE name LIKE ?;'
     name = '\%' + name + '\%';
 
-    connection.connect(function(err) {
+    pool.query(sql,[name], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[name], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getYeastByRegion(region, callback) {
     var sql = 'SELECT * FROM yeast WHERE region = ?;'
 
-    connection.connect(function(err) {
+    pool.query(sql,[region], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[region], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getYeastByType(type, callback) {
     var sql = 'SELECT * FROM yeast WHERE yeast_type = ?;'
 
-    connection.connect(function(err) {
+    pool.query(sql,[type], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[type], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getYeastByAA(minAA, maxAA, callback) {
     var sql = 'SELECT * FROM yeast WHERE apparent_attenuation >= ? AND apparent_attenuation <= ?;'
 
-    connection.connect(function(err) {
+    pool.query(sql,[minAA, maxAA], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[minAA, maxAA], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getGrainByName(name, callback) {
     var sql = 'SELECT * FROM grain WHERE name LIKE ?;'
     name = '\%' + name + '\%';
 
-    connection.connect(function(err) {
+    pool.query(sql,[name], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[name], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getGrainByRegion(region, callback) {
     var sql = 'SELECT * FROM grain WHERE region = ?;'
 
-    connection.connect(function(err) {
+    pool.query(sql,[region], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[region], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getGrainByPE(minPE, maxPE, callback) {
     var sql = 'SELECT * FROM grain WHERE potential_extract >= ? AND potential_extract <= ?;'
 
-    connection.connect(function(err) {
+    pool.query(sql,[minPE, maxPE], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[minPE, maxPE], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getGrainByLovibonds(minL, maxL, callback) {
     var sql = 'SELECT * FROM grain WHERE lovibonds >= ? AND lovibonds <= ?;'
 
-    connection.connect(function(err) {
+    pool.query(sql,[minL, maxL], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[minL, maxL], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getAdditiveByName(name, callback) {
     var sql = 'SELECT * FROM additive WHERE name LIKE ?;'
     name = '\%' + name + '\%';
 
-    connection.connect(function(err) {
+    pool.query(sql,[name], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[name], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getRecipeByName(name, callback) {
     var sql = 'SELECT * FROM beer_recipe WHERE name LIKE ?;'
     name = '\%' + name + '\%';
 
-    connection.connect(function(err) {
+    pool.query(sql,[name], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[name], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getStyleByName(name, callback) {
     var sql = 'SELECT * FROM beer_style WHERE name LIKE ?;'
     name = '\%' + name + '\%';
 
-    connection.connect(function(err) {
+    pool.query(sql,[name], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[name], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
+function getStyleByRecipe(name, callback) {
+    var sql = 'SELECT beer_style.* FROM beer_style, beer_recipe, style_of_recipe WHERE beer_recipe.name = ? '+
+    'AND beer_recipe.id = style_of_recipe.recipe_id AND beer_style.id = style_of_recipe.style_id;'
 
-
-
+    pool.query(sql,[name], function (err, result) {
+        if (err) throw err;
+        else callback(result);
+        console.log(result);
+    });
+}
 function getRecipeByAmountOfHops(minHops,maxHops, callback) {
     var sql = 'SELECT beer_recipe.*, SUM(hops_in_recipe.amount) '+
         'FROM beer_recipe, hops_in_recipe '+
@@ -344,13 +279,10 @@ function getRecipeByAmountOfHops(minHops,maxHops, callback) {
         'AND SUM(hops_in_recipe.amount) <= ?;';
     console.log(sql);
 
-    connection.connect(function(err) {
+    pool.query(sql,[minHops,maxHops], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[minHops,maxHops], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getRecipeByAmountOfGrain(minGrain,maxGrain, callback) {
@@ -362,13 +294,10 @@ function getRecipeByAmountOfGrain(minGrain,maxGrain, callback) {
         'AND SUM(grain_in_recipe.amount) <= ?;';
     console.log(sql);
 
-    connection.connect(function(err) {
+    pool.query(sql,[minGrain,maxGrain], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[minGrain,maxGrain], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getRecipeByGrainName(grain, callback) {
@@ -379,13 +308,10 @@ function getRecipeByGrainName(grain, callback) {
     grain = '\%' + grain + '\%';
     console.log(sql);
 
-    connection.connect(function(err) {
+    pool.query(sql,[grain], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[grain], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getRecipeByYeastName(yeast, callback) {
@@ -396,13 +322,10 @@ function getRecipeByYeastName(yeast, callback) {
     yeast = '\%' + yeast + '\%';
     console.log(sql);
 
-    connection.connect(function(err) {
+    pool.query(sql,[yeast], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[yeast], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
 function getRecipeByHopsName(hops, callback) {
@@ -413,15 +336,56 @@ function getRecipeByHopsName(hops, callback) {
     hops = '\%' + hops + '\%';
     console.log(sql);
 
-    connection.connect(function(err) {
+    pool.query(sql,[hops], function (err, result) {
         if (err) throw err;
-        connection.query(sql,[hops], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
+        else callback(result);
+        console.log(result);
     });
 }
+function addHops(name, AA, purpose, description) {
+    // optional: description
+    var sql = 'INSERT INTO hops(name, description, alpha_acid, purpose) '+
+        'VALUES(?, ?, ?, ?);'
+
+    pool.query(sql,[name, description, AA, purpose], function (err, result) {
+        if (err) throw err;
+        console.log(result);
+    });
+}
+function addGrain(name, PE, lovibonds, region, description) {
+    // optional: region, description
+    var sql = 'INSERT INTO grain(name, description, region, potential_extract, lovibonds) '+
+        'VALUES(?, ?, ?, ?, ?);'
+
+    pool.query(sql,[name, description, region, PE, lovibonds], function (err, result) {
+        if (err) throw err;
+        console.log(result);
+    });
+}
+function addYeast(name, region, AA, type, description) {
+    // optional: description
+    var sql = 'INSERT INTO yeast(name, region, apparent_attenuation, yeast_type, description) '+
+        'VALUES(?, ?, ?, ?, ?);'
+
+    pool.query(sql,[name, region, AA, type, description], function (err, result) {
+        if (err) throw err;
+        console.log(result);
+    });
+}
+function addAdditive(name, useCase, description) {
+    // optional: description
+    var sql = 'INSERT INTO additive(name, description, use_case) '+
+        'VALUES(?, ?, ?);'
+
+    pool.query(sql,[name, useCase, description], function (err, result) {
+        if (err) throw err;
+        console.log(result);
+    });
+}
+
+
+
+
 
 module.exports = {'connect': connect, 'disconnect': disconnect,'initializeDatabase': initializeDatabase,
 'getHopsByAA': getHopsByAA, 'getHopsByRecipeName': getHopsByRecipeName, 'getGrainByRecipeName': getGrainByRecipeName,
@@ -432,10 +396,10 @@ module.exports = {'connect': connect, 'disconnect': disconnect,'initializeDataba
 'getYeastByName': getYeastByName, 'getGrainByName': getGrainByName, 'getAdditiveByName': getAdditiveByName,
 'getStyleByName': getStyleByName, 'getGrainByRegion': getGrainByRegion, 'getGrainByPE': getGrainByPE,
 'getRecipeByName': getRecipeByName, 'getGrainByLovibonds': getGrainByLovibonds, 'getRecipeByAmountOfHops': getRecipeByAmountOfHops,
-'getRecipeByAmountOfGrain': getRecipeByAmountOfGrain, 'getRecipeByGrainName': getRecipeByGrainName, 'disconnect': disconnect,
-'getRecipeByYeastName': getRecipeByYeastName, 'getRecipeByHopsName': getRecipeByHopsName, 'disconnect': disconnect,
-'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
-'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
+'getRecipeByAmountOfGrain': getRecipeByAmountOfGrain, 'getRecipeByGrainName': getRecipeByGrainName,
+'getRecipeByYeastName': getRecipeByYeastName, 'getRecipeByHopsName': getRecipeByHopsName, 'getStyleByRecipe': getStyleByRecipe,
+'addHops': addHops, 'addGrain': addGrain, 'addYeast': addYeast,
+'addAdditive': addAdditive, 'disconnect': disconnect, 'disconnect': disconnect,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect};

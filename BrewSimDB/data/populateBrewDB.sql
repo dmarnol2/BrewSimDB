@@ -157,8 +157,8 @@ INSERT INTO style_of_recipe(style_id, recipe_id)
 VALUES(@style,@recipe);
 
 # Build recipe for Zombie Dust Clone
-INSERT INTO beer_recipe(name, boil_time)
-VALUES('Zombie Dust Clone Pale Ale', 60);
+INSERT INTO beer_recipe(name, boil_time, description, instructions)
+VALUES('Zombie Dust Clone Pale Ale', 60, null, 'https://www.brewersfriend.com/homebrew/recipe/view/280731/zombie-dust-clone-brain-eater');
 # grabs last auto_increment id used
 SET @recipe = (SELECT beer_recipe.id FROM beer_recipe WHERE beer_recipe.id=LAST_INSERT_ID());
 # Add 11lbs of 2-row pale malt
