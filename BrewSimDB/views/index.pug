@@ -1,14 +1,14 @@
 extends layout
 
 block content
-  .text-center Welcome to #{print[0].name}
+  .text-center Welcome to #{hops[0].name}
   table#table
     thead
       tr
         th
           = "name"
     tbody      
-      each hop, i in print
+      each hop, i in hops
         tr
           td
             = hop.name

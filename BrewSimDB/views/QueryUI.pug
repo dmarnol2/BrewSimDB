@@ -2,32 +2,36 @@ extends layout
 
 block content
   h3  Query the Brewsim Database 
-  form
-    p Find hops within a certain Alpha Acid range:
-    | Beginning value: 
-    input(type='number', name='HopRangeStart')
-    | Ending value:
-    input(type='number', name='HopRangeEnd')
-    input(type='Submit', name='submitRange', value='Submit')
+  form(action='/query', method='post')
+    label Find hops within a certain Alpha Acid range:
+    .form-group.row
+      label.col-2.col-form-label Beginning value: 
+      input.col-4(type='number', name='HopRangeStart')
+    .form-group.row
+      label.col-2.col-form-label Ending value
+      input.col-4(type='number', name='HopRangeEnd')
     br
     br
     p Find beers within a certain IBU (Bitterness) range:
-    | Beginning value: 
-    input(type='number', name='IBURangeStart')
-    | Ending value:
-    input(type='number', name='IBURangeEnd')
-    input(type='Submit', name='submitIBU', value='Submit')
+    .form-group.row
+      label.col-2.col-form-label Beginning value: 
+      input.col-4(type='number', name='IBURangeStart')
+    .form-group.row
+      label.col-2.col-form-label Ending value
+      input.col-4(type='number', name='IBURangeEnd')
     br
     br
     p Find beers within a certain ABV (% Alcohol) range:
-    | Beginning value: 
-    input(type='number', name='IBURangeStart')
-    | Ending value:
-    input(type='number', name='IBURangeEnd')
-    input(type='Submit', name='submitIBU', value='Submit')
+    .form-group.row
+      label.col-2.col-form-label Beginning value: 
+      input.col-4(type='number', name='ABVStart')
+    .form-group.row
+      label.col-2.col-form-label Ending value
+      input.col-4(type='number', name='ABVEnd')
     br
     br
     p Search recipes containing:
+    .form-group.row
     input(type='checkbox', value='Barley')
     label(for='Barley') Barley
     input(type='checkbox', value='Cascade')
@@ -57,17 +61,23 @@ block content
     label(for='Rye') Rye
     input(type='checkbox', value='Cluster')
     label(for='Cluster') Cluster
-    input(type='Submit', name='submitGrain', value='Submit')
     br
     br
-  p Search recipes containing yeast from:
-  select
-    option(value='') Select Region
-    option(value='American') American
-    option(value='Irish') Irish
-    option(value='Belgian') Belgian
-    option(value='English') English
-    option(value='German') German
-  input(type='Submit', name='submitRegion', value='Submit')
-  br
-  br
+    p Search Hops:
+    select
+      for hop in hops
+        option( selected=hop == hop ) #{hop.name}
+        
+
+
+    select
+      option(value='') Select Region
+      option(value='American') American
+      option(value='Irish') Irish
+      option(value='Belgian') Belgian
+      option(value='English') English
+      option(value='German') Germa
+    br
+    br
+
+    input(type='Submit', value='Submit')
