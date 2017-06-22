@@ -45,6 +45,78 @@ function getHops(hopName, callback) {
         });
     });
 }
+function getAllHops(callback) {
+    var sql = 'SELECT * FROM hops;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql, function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getAllGrain(callback) {
+    var sql = 'SELECT * FROM grain;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql, function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getAllYeast(callback) {
+    var sql = 'SELECT * FROM yeast;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql, function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getAllAdditive(callback) {
+    var sql = 'SELECT * FROM additive;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql, function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getAllBeerRecipe(callback) {
+    var sql = 'SELECT * FROM beer_recipe;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql, function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getAllBeerStyle(callback) {
+    var sql = 'SELECT * FROM beer_style;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql, function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
 function getHopsByRecipeName(recipeName, callback) {
     var sql = 'SELECT DISTINCT hops.*, hops_in_recipe.amount, hops_in_recipe.exposure_time ' +
         'FROM hops, beer_recipe, hops_in_recipe ' +
@@ -76,4 +148,6 @@ function getGrainsByRecipeName(recipeName, callback) {
 
 
 module.exports = {'connect': connect, 'disconnect': disconnect,'initializeDatabase': initializeDatabase,
-'getHops': getHops, 'getHopsByRecipeName': getHopsByRecipeName, 'getGrainsByRecipeName': getGrainsByRecipeName};
+'getHops': getHops, 'getHopsByRecipeName': getHopsByRecipeName, 'getGrainsByRecipeName': getGrainsByRecipeName,
+'getAllHops': getAllHops, 'getAllGrain': getAllGrain, 'getAllYeast': getAllYeast, 'getAllBeerRecipe': getAllBeerRecipe,
+'getAllBeerStyle': getAllBeerStyle, 'getAllAdditive': getAllAdditive, 'disconnect': disconnect, 'disconnect': disconnect};
