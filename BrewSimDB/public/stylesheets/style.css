@@ -6,3 +6,11 @@ body {
 a {
   color: #00B7FF;
 }
+
+.db-query {
+	margin: 75px;
+}
+
+.query-title {
+	margin-top: 35px;
+}

@@ -1,14 +1,15 @@
 extends layout
 
 block content
-  .text-center Welcome to #{hops[0].name}
+  .text-center Welcome to BrewDB
   table#table
     thead
       tr
         th
           = "name"
-    tbody      
-      each hop, i in hops
+    tbody
+      if print.length>0
+      each item, i in print
         tr
           td
-            = hop.name
+            = item.name
