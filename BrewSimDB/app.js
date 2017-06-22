@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var execSQL = require('exec-sql');
 
-var users = require('./routes/users');
+var users = require('./routes');
 var app = express();
 
 //  engine setup
@@ -45,48 +45,31 @@ var connection = mysql.createConnection({
     password: process.env.DB_PASSWORD
 });
 
-/*connection.connect(function(err){
-    if(err) throw err;
-    console.log("Connected to database.");
-    connection.query("DROP DATABASE IF EXISTS brewsimdb", function(err, result){
-        if(err) throw err;
-        console.log(result);
-    });
-    connection.query("CREATE DATABASE brewsimdb", function(err, result){
-        if(err) throw err;
-        console.log(result);
-    });
-    connection.query("USE brewsimdb", function(err, result){
-        if(err) throw err;
-        console.log(result);
-    });
-});*/
-
-
-
-
-
-
-
-
-
-
-
-// routes
 
 var hops_type = {};
 app.get('/', function(req, res) {
     console.log("entered into main page.");
-  connection.query('SELECT * FROM hops;', function (err, result) {
+  connection.query('SELECT * FROM hops;', function (err, hops) {
     if (err) throw err
-    console.log("Got this for ya!" + result);
-    hops_type = {'print' : result};
+    console.log("Got this for ya!" + hops);
+    hops_type = {hops};
     res.render('index', hops_type);
   });
 });
 
+// Query Routes
 app.get('/query', function(req, res) {
-  res.render('QueryUI');
+  connection.query('SELECT * FROM hops;', function (err, hops) {
+    if (err) throw err
+    console.log("Got this for ya!" + hops);
+    hops_type = {hops};
+    res.render('QueryUI', hops_type);
+  });
+  
+});
+
+app.post('/query', function(req, res){
+  console.dir(req.body);
 });
 
 // catch 404 and forward to error handler
