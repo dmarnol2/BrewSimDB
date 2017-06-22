@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mysql = require('mysql');
 var expressValidator = require('express-validator');
 
 var databaseHandler = require('./modules/databaseHandler');
@@ -56,7 +55,7 @@ app.get('/', function(req, res) {
     databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
     console.log("entered into main page.");
     // below is query testing line. Will display names of results to index.
-    databaseHandler.getGrainsByRecipeName('Hoppiness is an IPA',function (result) {
+    databaseHandler.getStyleByName('IPA',function (result) {
         console.log('returned this: ' + result);
         item_type = {'print' : result};
         res.render('index', item_type);
