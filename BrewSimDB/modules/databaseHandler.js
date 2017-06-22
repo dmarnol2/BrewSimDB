@@ -114,7 +114,7 @@ function getHopsByRecipeName(recipeName, callback) {
         });
     });
 }
-function getGrainsByRecipeName(recipeName, callback) {
+function getGrainByRecipeName(recipeName, callback) {
     var sql = 'SELECT DISTINCT grain.*, grain_in_recipe.amount ' +
         'FROM grain, beer_recipe, grain_in_recipe ' +
         'WHERE beer_recipe.name = ? AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id;';
@@ -158,6 +158,19 @@ function getAdditiveByRecipeName(recipeName, callback) {
 }
 
 
+function getHopsByName(name, callback) {
+    var sql = 'SELECT * FROM hops WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
 function getHopsByAA(minAA, maxAA, callback) {
     var sql = 'SELECT * FROM hops WHERE alpha_acid >= ? AND alpha_acid <= ?;'
 
@@ -176,6 +189,19 @@ function getHopsByPurpose(purpose, callback) {
     connection.connect(function(err) {
         if (err) throw err;
         connection.query(sql,[purpose], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getYeastByName(name, callback) {
+    var sql = 'SELECT * FROM yeast WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
             if (err) throw err;
             else callback(result);
             console.log(result);
@@ -218,15 +244,67 @@ function getYeastByAA(minAA, maxAA, callback) {
         });
     });
 }
+function getGrainByName(name, callback) {
+    var sql = 'SELECT * FROM grain WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getAdditiveByName(name, callback) {
+    var sql = 'SELECT * FROM additive WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getRecipeByName(name, callback) {
+    var sql = 'SELECT * FROM beer_recipe WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getStyleByName(name, callback) {
+    var sql = 'SELECT * FROM beer_style WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
 
 
 module.exports = {'connect': connect, 'disconnect': disconnect,'initializeDatabase': initializeDatabase,
-'getHopsByAA': getHopsByAA, 'getHopsByRecipeName': getHopsByRecipeName, 'getGrainsByRecipeName': getGrainsByRecipeName,
+'getHopsByAA': getHopsByAA, 'getHopsByRecipeName': getHopsByRecipeName, 'getGrainByRecipeName': getGrainByRecipeName,
 'getAllHops': getAllHops, 'getAllGrain': getAllGrain, 'getAllYeast': getAllYeast, 'getAllBeerRecipe': getAllBeerRecipe,
 'getAllBeerStyle': getAllBeerStyle, 'getAllAdditive': getAllAdditive, 'getYeastByRecipeName': getYeastByRecipeName,
 'getAdditiveByRecipeName': getAdditiveByRecipeName, 'getYeastByType': getYeastByType, 'getYeastByAA': getYeastByAA,
-'getHopsByPurpose': getHopsByPurpose, 'getYeastByRegion': getYeastByRegion, 'disconnect': disconnect,
-'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
-'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
+'getHopsByPurpose': getHopsByPurpose, 'getYeastByRegion': getYeastByRegion, 'getHopsByName': getHopsByName,
+'getYeastByName': getYeastByName, 'getGrainByName': getGrainByName, 'getAdditiveByName': getAdditiveByName, 'getRecipeByName': getRecipeByName,
+'getStyleByName': getStyleByName, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect};
