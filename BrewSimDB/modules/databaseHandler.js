@@ -257,6 +257,42 @@ function getGrainByName(name, callback) {
         });
     });
 }
+function getGrainByRegion(region, callback) {
+    var sql = 'SELECT * FROM grain WHERE region = ?;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[region], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getGrainByPE(minPE, maxPE, callback) {
+    var sql = 'SELECT * FROM grain WHERE potential_extract >= ? AND potential_extract <= ?;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[minPE, maxPE], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getGrainByLovibonds(minL, maxL, callback) {
+    var sql = 'SELECT * FROM grain WHERE lovibonds >= ? AND lovibonds <= ?;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[minL, maxL], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
 function getAdditiveByName(name, callback) {
     var sql = 'SELECT * FROM additive WHERE name LIKE ?;'
     name = '\%' + name + '\%';
@@ -298,13 +334,108 @@ function getStyleByName(name, callback) {
 }
 
 
+
+function getRecipeByAmountOfHops(minHops,maxHops, callback) {
+    var sql = 'SELECT beer_recipe.*, SUM(hops_in_recipe.amount) '+
+        'FROM beer_recipe, hops_in_recipe '+
+        'Where beer_recipe.id = hops_in_recipe.recipe_id '+
+        'GROUP BY hops_in_recipe.recipe_id '+
+        'HAVING SUM(hops_in_recipe.amount) >= ? '+
+        'AND SUM(hops_in_recipe.amount) <= ?;';
+    console.log(sql);
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[minHops,maxHops], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getRecipeByAmountOfGrain(minGrain,maxGrain, callback) {
+    var sql = 'SELECT beer_recipe.*, SUM(grain_in_recipe.amount) '+
+        'FROM beer_recipe, grain_in_recipe '+
+        'Where beer_recipe.id = grain_in_recipe.recipe_id '+
+        'GROUP BY grain_in_recipe.recipe_id '+
+        'HAVING SUM(grain_in_recipe.amount) >= ? '+
+        'AND SUM(grain_in_recipe.amount) <= ?;';
+    console.log(sql);
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[minGrain,maxGrain], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getRecipeByGrainName(grain, callback) {
+    var sql = 'SELECT DISTINCT beer_recipe.name, beer_recipe.id AS \'recipe_id\' '+
+        'FROM grain, beer_recipe, grain_in_recipe '+
+        'WHERE grain.name  LIKE ? '+
+        'AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id;';
+    grain = '\%' + grain + '\%';
+    console.log(sql);
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[grain], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getRecipeByYeastName(yeast, callback) {
+    var sql = 'SELECT DISTINCT beer_recipe.name, beer_recipe.id AS \'recipe_id\' '+
+        'FROM yeast, beer_recipe, yeast_in_recipe '+
+        'WHERE yeast.name LIKE ? '+
+        'AND beer_recipe.id = yeast_in_recipe.recipe_id AND yeast.id = yeast_in_recipe.yeast_id;';
+    yeast = '\%' + yeast + '\%';
+    console.log(sql);
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[yeast], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getRecipeByHopsName(hops, callback) {
+    var sql = 'SELECT DISTINCT beer_recipe.name, beer_recipe.id AS \'recipe_id\' '+
+        'FROM hops, beer_recipe, hops_in_recipe '+
+        'WHERE hops.name LIKE ? '+
+        'AND beer_recipe.id = hops_in_recipe.recipe_id AND hops.id = hops_in_recipe.hops_id;';
+    hops = '\%' + hops + '\%';
+    console.log(sql);
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[hops], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+
 module.exports = {'connect': connect, 'disconnect': disconnect,'initializeDatabase': initializeDatabase,
 'getHopsByAA': getHopsByAA, 'getHopsByRecipeName': getHopsByRecipeName, 'getGrainByRecipeName': getGrainByRecipeName,
 'getAllHops': getAllHops, 'getAllGrain': getAllGrain, 'getAllYeast': getAllYeast, 'getAllBeerRecipe': getAllBeerRecipe,
 'getAllBeerStyle': getAllBeerStyle, 'getAllAdditive': getAllAdditive, 'getYeastByRecipeName': getYeastByRecipeName,
 'getAdditiveByRecipeName': getAdditiveByRecipeName, 'getYeastByType': getYeastByType, 'getYeastByAA': getYeastByAA,
 'getHopsByPurpose': getHopsByPurpose, 'getYeastByRegion': getYeastByRegion, 'getHopsByName': getHopsByName,
-'getYeastByName': getYeastByName, 'getGrainByName': getGrainByName, 'getAdditiveByName': getAdditiveByName, 'getRecipeByName': getRecipeByName,
-'getStyleByName': getStyleByName, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
-'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
-'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect};
+'getYeastByName': getYeastByName, 'getGrainByName': getGrainByName, 'getAdditiveByName': getAdditiveByName,
+'getStyleByName': getStyleByName, 'getGrainByRegion': getGrainByRegion, 'getGrainByPE': getGrainByPE,
+'getRecipeByName': getRecipeByName, 'getGrainByLovibonds': getGrainByLovibonds, 'getRecipeByAmountOfHops': getRecipeByAmountOfHops,
+'getRecipeByAmountOfGrain': getRecipeByAmountOfGrain, 'getRecipeByGrainName': getRecipeByGrainName, 'disconnect': disconnect,
+'getRecipeByYeastName': getRecipeByYeastName, 'getRecipeByHopsName': getRecipeByHopsName, 'disconnect': disconnect,
+'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
+'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
+'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
+'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
+'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect};
