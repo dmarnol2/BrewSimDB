@@ -3,8 +3,21 @@ extends layout
 block content
   h3  Query the Brewsim Database 
   form
+    p Find an ingredient:
+    | Ingredint Name:
+    input(type='string', name='IngredientName')
+    | Category:
+    select
+      option(value='Hops') Hops
+      option(value='Grain') Grain
+      option(value='Yeast') Yeast
+      option(value='Beer Style') Beer Style
+      option(value='Beer Recipe') Beer Recipe
+    input(type='Submit', name='submitRange', value='Submit')
+    br
+    br
     p Find hops within a certain Alpha Acid range:
-    | Beginning value: 
+    | Beginning value:
     input(type='number', name='HopRangeStart')
     | Ending value:
     input(type='number', name='HopRangeEnd')

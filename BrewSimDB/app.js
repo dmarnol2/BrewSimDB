@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mysql = require('mysql');
 var expressValidator = require('express-validator');
 
 var databaseHandler = require('./modules/databaseHandler');
@@ -55,7 +54,8 @@ app.get('/', function(req, res) {
     // for whatever reason (probably async) if I put the connect line directly below the initializeDatabase line it can't connect because the database doesn't exist yet. Putting it here gives the database initialization time to complete first.
     databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
     console.log("entered into main page.");
-    databaseHandler.getAllGrain(function (result) {
+    // below is query testing line. Will display names of results to index.
+    databaseHandler.getStyleByName('IPA',function (result) {
         console.log('returned this: ' + result);
         item_type = {'print' : result};
         res.render('index', item_type);

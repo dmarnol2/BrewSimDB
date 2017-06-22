@@ -16,7 +16,6 @@ function connect(db, user, password) {
         multipleStatements: true
     });
 }
-
 function initializeDatabase(dir) {
     execSQL.connect('', process.env.DB_USER, process.env.DB_PASSWORD); // first field, database name, intentionally left as empty string. The script creates the database.
     execSQL.executeDirectory(dir, function(err) {
@@ -25,25 +24,9 @@ function initializeDatabase(dir) {
         console.log('Done executing directory ' + dir);
     });
 }
-
 function disconnect() {
     connection.end();
     connection = null;
-}
-
-function getHops(hopName, callback) {
-    var sql = 'SELECT * FROM hops WHERE name = ?;'
-    if(hopName == null)
-        sql = 'SELECT * FROM hops;'
-
-    connection.connect(function(err) {
-        if (err) throw err;
-        connection.query(sql,[hopName], function (err, result) {
-            if (err) throw err;
-            else callback(result);
-            console.log(result);
-        });
-    });
 }
 function getAllHops(callback) {
     var sql = 'SELECT * FROM hops;'
@@ -131,7 +114,7 @@ function getHopsByRecipeName(recipeName, callback) {
         });
     });
 }
-function getGrainsByRecipeName(recipeName, callback) {
+function getGrainByRecipeName(recipeName, callback) {
     var sql = 'SELECT DISTINCT grain.*, grain_in_recipe.amount ' +
         'FROM grain, beer_recipe, grain_in_recipe ' +
         'WHERE beer_recipe.name = ? AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id;';
@@ -145,9 +128,183 @@ function getGrainsByRecipeName(recipeName, callback) {
         });
     });
 }
+function getYeastByRecipeName(recipeName, callback) {
+    var sql = 'SELECT DISTINCT yeast.* ' +
+        'FROM yeast, beer_recipe, yeast_in_recipe ' +
+        'WHERE beer_recipe.name = ? AND beer_recipe.id = yeast_in_recipe.recipe_id AND yeast.id = yeast_in_recipe.yeast_id;';
+    console.log(sql);
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[recipeName], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getAdditiveByRecipeName(recipeName, callback) {
+    var sql = 'SELECT DISTINCT additive.*, additive_in_recipe.amount ' +
+        'FROM additive, beer_recipe, additive_in_recipe ' +
+        'WHERE beer_recipe.name = ? AND beer_recipe.id = additive_in_recipe.recipe_id AND additive.id = additive_in_recipe.additive_id;';
+    console.log(sql);
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[recipeName], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+
+
+function getHopsByName(name, callback) {
+    var sql = 'SELECT * FROM hops WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getHopsByAA(minAA, maxAA, callback) {
+    var sql = 'SELECT * FROM hops WHERE alpha_acid >= ? AND alpha_acid <= ?;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[minAA, maxAA], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getHopsByPurpose(purpose, callback) {
+    var sql = 'SELECT * FROM hops WHERE purpose = ? OR purpose = "dual";'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[purpose], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getYeastByName(name, callback) {
+    var sql = 'SELECT * FROM yeast WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getYeastByRegion(region, callback) {
+    var sql = 'SELECT * FROM yeast WHERE region = ?;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[region], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getYeastByType(type, callback) {
+    var sql = 'SELECT * FROM yeast WHERE yeast_type = ?;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[type], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getYeastByAA(minAA, maxAA, callback) {
+    var sql = 'SELECT * FROM yeast WHERE apparent_attenuation >= ? AND apparent_attenuation <= ?;'
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[minAA, maxAA], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getGrainByName(name, callback) {
+    var sql = 'SELECT * FROM grain WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getAdditiveByName(name, callback) {
+    var sql = 'SELECT * FROM additive WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getRecipeByName(name, callback) {
+    var sql = 'SELECT * FROM beer_recipe WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
+function getStyleByName(name, callback) {
+    var sql = 'SELECT * FROM beer_style WHERE name LIKE ?;'
+    name = '\%' + name + '\%';
+
+    connection.connect(function(err) {
+        if (err) throw err;
+        connection.query(sql,[name], function (err, result) {
+            if (err) throw err;
+            else callback(result);
+            console.log(result);
+        });
+    });
+}
 
 
 module.exports = {'connect': connect, 'disconnect': disconnect,'initializeDatabase': initializeDatabase,
-'getHops': getHops, 'getHopsByRecipeName': getHopsByRecipeName, 'getGrainsByRecipeName': getGrainsByRecipeName,
+'getHopsByAA': getHopsByAA, 'getHopsByRecipeName': getHopsByRecipeName, 'getGrainByRecipeName': getGrainByRecipeName,
 'getAllHops': getAllHops, 'getAllGrain': getAllGrain, 'getAllYeast': getAllYeast, 'getAllBeerRecipe': getAllBeerRecipe,
-'getAllBeerStyle': getAllBeerStyle, 'getAllAdditive': getAllAdditive, 'disconnect': disconnect, 'disconnect': disconnect};
+'getAllBeerStyle': getAllBeerStyle, 'getAllAdditive': getAllAdditive, 'getYeastByRecipeName': getYeastByRecipeName,
+'getAdditiveByRecipeName': getAdditiveByRecipeName, 'getYeastByType': getYeastByType, 'getYeastByAA': getYeastByAA,
+'getHopsByPurpose': getHopsByPurpose, 'getYeastByRegion': getYeastByRegion, 'getHopsByName': getHopsByName,
+'getYeastByName': getYeastByName, 'getGrainByName': getGrainByName, 'getAdditiveByName': getAdditiveByName, 'getRecipeByName': getRecipeByName,
+'getStyleByName': getStyleByName, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
+'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
+'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect};
