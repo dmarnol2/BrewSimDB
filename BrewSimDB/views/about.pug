@@ -1,13 +1,11 @@
-doctype html
-html
+extends layout
+block content
+
   head
     style.
-      h1 {
-      margin: 50px 0 0 0;
-      }
 
       p {
-      margin: 30px 0 0 0;
+      margin: 38px 0 0 0;
       }
 
       p.padding {
@@ -22,7 +20,7 @@ html
 
     title About
   body
-    h1(align='center') - BrewSim DB -
+    h2(align='center') - BrewSim DB -
     p.padding(align='justify')
       | This is a database application written for the class Database Management, SER 322 at Arizona State University. The database is a MySQL database, and the application is written with node.js, express.js, and pug.
     p.padding(align='justify')
@@ -31,7 +29,7 @@ html
       | Please vist the 
       a(href='https://github.com/dmarnol2/BrewSimDB') BrewSimDB GitHub repo
       |  to learn more.
-      h1(align='center') - Authors -
+      h2(align='center') - Authors -
     div
       ul.padding
         li Kristofer Hoadley
