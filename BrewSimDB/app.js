@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 
+
 var databaseHandler = require('./modules/databaseHandler');
 var users = require('./routes/users');
 var app = express();
@@ -46,13 +47,17 @@ app.use('/users', users);
 var dotenv = require('dotenv');
 dotenv.load();
 
+
 //DB setup, initialize FIRST then connect.
 databaseHandler.initializeDatabase(path.join(__dirname, 'data'));
 databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
 
+
+
 var item_type = {};
 app.get('/', function(req, res) {
     console.log("entered into main page.");
+
     // below is query testing line. Will display names of results to index.
     databaseHandler.getAdditiveByName('test',function (result) {
         console.log('returned this: ' + result);
@@ -65,9 +70,16 @@ app.get('/about', function(req, res) {
     res.render('About');
 });
 
-app.get('/query', function(req, res) {
-    databaseHandler.addAdditive('test additive');
-    res.render('QueryUI');
+// Query Routes
+app.get('/query', function(req, res) {  
+  databaseHandler.addAdditive('test additive');
+  res.render('QueryUI', {hops : {}})
+});
+
+app.post('/query', function(req, res){
+  
+  console.dir(req.body);
+
 });
 
 // catch 404 and forward to error handler
