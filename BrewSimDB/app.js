@@ -60,6 +60,10 @@ app.get('/', function(req, res) {
         res.render('index', item_type);
     })
 });
+app.get('/about', function(req, res) {
+    //databaseHandler.addAdditive('test additive');
+    res.render('About');
+});
 
 app.get('/query', function(req, res) {
     databaseHandler.addAdditive('test additive');
