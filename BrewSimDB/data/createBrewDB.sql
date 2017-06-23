@@ -141,3 +141,17 @@ CREATE TABLE additive_in_recipe(
   REFERENCES additive(id)
     ON UPDATE CASCADE ON DELETE CASCADE # need to determine if this is correct...
 );
+
+CREATE TABLE recipe_scales_to_equipment(
+  equipment_id INT NOT NULL,
+  recipe_id INT NOT NULL,
+  batch_size INT,
+  efficiency INT,
+  PRIMARY KEY (equipment_id, recipe_id),
+  FOREIGN KEY (recipe_id)
+  REFERENCES beer_recipe(id)
+    ON UPDATE CASCADE ON DELETE CASCADE, # need to determine if this is correct...
+  FOREIGN KEY (equipment_id)
+  REFERENCES equipment(id)
+    ON UPDATE CASCADE ON DELETE CASCADE # need to determine if this is correct...
+);
