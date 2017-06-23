@@ -392,7 +392,24 @@ function getIBUByRecipe(name, callback) {
         'FROM beer_recipe, hops, hops_in_recipe, equipment '+
         'WHERE beer_recipe.name = ? AND equipment.id = 1 '+
         'AND beer_recipe.id = hops_in_recipe.recipe_id AND hops.id = hops_in_recipe.hops_id '+
-        'GROUP BY hops_in_recipe.recipe_id;'
+        'GROUP BY hops_in_recipe.recipe_id;';
+
+    pool.query(sql,[name, name], function (err, result) {
+        if (err) throw err;
+        else callback(result[1]);
+        console.log(result[1]);
+    });
+}
+function getABVByRecipe(name, callback) {
+    var sql = 'SELECT @OG := SUM((grain.potential_extract * grain_in_recipe.amount * equipment.extract_efficeny)/equipment.batch_size) '+
+    'FROM beer_recipe, grain, grain_in_recipe, equipment '+
+    'WHERE beer_recipe.name = ? AND equipment.id = 1 '+
+    'AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id; '+
+    'SELECT beer_recipe.name, ((@OG - (1+((SUM((grain.potential_extract * grain_in_recipe.amount * equipment.extract_efficeny)/equipment.batch_size)-1)*(1-yeast.apparent_attenuation))))*0.129) AS ABV '+
+    'FROM beer_recipe, grain, yeast, yeast_in_recipe, grain_in_recipe, equipment '+
+    'WHERE beer_recipe.name = ? AND equipment.id = 1 '+
+    'AND beer_recipe.id = yeast_in_recipe.recipe_id AND yeast.id = yeast_in_recipe.yeast_id '+
+    'AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id; ';
 
     pool.query(sql,[name, name], function (err, result) {
         if (err) throw err;
@@ -415,7 +432,7 @@ module.exports = {'connect': connect, 'disconnect': disconnect,'initializeDataba
 'getRecipeByAmountOfGrain': getRecipeByAmountOfGrain, 'getRecipeByGrainName': getRecipeByGrainName,
 'getRecipeByYeastName': getRecipeByYeastName, 'getRecipeByHopsName': getRecipeByHopsName, 'getStyleByRecipe': getStyleByRecipe,
 'addHops': addHops, 'addGrain': addGrain, 'addYeast': addYeast,
-'addAdditive': addAdditive, 'getIBUByRecipe': getIBUByRecipe, 'disconnect': disconnect,
+'addAdditive': addAdditive, 'getIBUByRecipe': getIBUByRecipe, 'getABVByRecipe': getABVByRecipe,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect};
