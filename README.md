@@ -7,11 +7,11 @@ The application domain of the BrewSim Database provides information on beer brew
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
-You will need to install npm, node.js, express.js, pug, mysql.
+You will need to install npm, node.js, express.js, mysql.
 
 ### Installing
 
@@ -23,6 +23,14 @@ First, you need to clone the repository.
 git clone https://github.com/dmarnol2/BrewSimDB.git
 ```
 
+Then, you need to set up your local environment. Using the '.sample_env' as a template, create and fill out a '.env' file as follows, replacing username and password with the username and password for your installation of MySQL.
+
+```
+DB_NAME='brewsimdb'
+DB_USER='username'
+DB_PASSWORD='password'
+```
+
 Then to launch change into the root directory and run the app with nodemon.
 
 ```
@@ -30,21 +38,26 @@ Then to launch change into the root directory and run the app with nodemon.
 ..\workspace\BrewSimDB\> cd brewsimdb
 ..\workspace\BrewSimDB\BrewSimDB\> nodemon app.js
 ```
+If it won't launch because any dependencies aren't install, run the following command replacing 'dependency' with the name of the dependency you need to install.
+```
+..\workspace\BrewSimDB\BrewSimDB\> npm install dependency --save
+```
 
 Finally, to access the app, open your browser and type:
 
 ```
 localhost:3000
 ```
-## Running the tests
 
-Explain how to run the automated tests for this system
+## Running the app
 
+On the Queries page is a form you can fill out to execute queries. Simply input the information and click submit.
 
 ## Built With
 
-* [Node](https://github.com/nodejs/node) - The web server used
-* [Express](https://github.com/expressjs/express) - Web framework used
+* [Node](https://nodejs.org/) - Web server used
+* [Express](https://expressjs.com/) - Web framework used
+* [MySQL](https://dev.mysql.com/downloads/) - Database used
 
 ## Contributing
 
@@ -63,12 +76,3 @@ We are still in beta for this project.
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
-
-
-
