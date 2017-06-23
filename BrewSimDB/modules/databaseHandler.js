@@ -8,13 +8,13 @@ var execSQL   =    require('exec-sql');
 var pool = null;
 
 function connect(db, user, password) {
-
     pool  = mysql.createPool({
         connectionLimit : 10,
         host     : 'localhost',
         database : db,
         user     : user,
         password : password,
+        multipleStatements: true
     });
 }
 function initializeDatabase(dir) {
@@ -383,7 +383,40 @@ function addAdditive(name, useCase, description) {
     });
 }
 
+function getIBUByRecipe(name, callback) {
+    var sql = 'SELECT @gravityOfBoil := SUM((grain.potential_extract * grain_in_recipe.amount * equipment.extract_efficeny)/equipment.batch_size/1000) '+
+        'FROM beer_recipe, grain, grain_in_recipe, equipment '+
+        'WHERE beer_recipe.name = ? AND equipment.id = 1 '+
+        'AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id; '+
+        'SELECT beer_recipe.name, SUM(((hops.alpha_acid) * (1.65 * POW(0.00125, (@gravityOfBoil)))*((1.0-POW(2.71828, (-(0.04)*hops_in_recipe.exposure_time))) / 4.15 ) * 74.89)/equipment.batch_size) AS IBU '+
+        'FROM beer_recipe, hops, hops_in_recipe, equipment '+
+        'WHERE beer_recipe.name = ? AND equipment.id = 1 '+
+        'AND beer_recipe.id = hops_in_recipe.recipe_id AND hops.id = hops_in_recipe.hops_id '+
+        'GROUP BY hops_in_recipe.recipe_id;';
 
+    pool.query(sql,[name, name], function (err, result) {
+        if (err) throw err;
+        else callback(result[1]);
+        console.log(result[1]);
+    });
+}
+function getABVByRecipe(name, callback) {
+    var sql = 'SELECT @OG := SUM((grain.potential_extract * grain_in_recipe.amount * equipment.extract_efficeny)/equipment.batch_size) '+
+    'FROM beer_recipe, grain, grain_in_recipe, equipment '+
+    'WHERE beer_recipe.name = ? AND equipment.id = 1 '+
+    'AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id; '+
+    'SELECT beer_recipe.name, ((@OG - (1+((SUM((grain.potential_extract * grain_in_recipe.amount * equipment.extract_efficeny)/equipment.batch_size)-1)*(1-yeast.apparent_attenuation))))*0.129) AS ABV '+
+    'FROM beer_recipe, grain, yeast, yeast_in_recipe, grain_in_recipe, equipment '+
+    'WHERE beer_recipe.name = ? AND equipment.id = 1 '+
+    'AND beer_recipe.id = yeast_in_recipe.recipe_id AND yeast.id = yeast_in_recipe.yeast_id '+
+    'AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id; ';
+
+    pool.query(sql,[name, name], function (err, result) {
+        if (err) throw err;
+        else callback(result[1]);
+        console.log(result[1]);
+    });
+}
 
 
 
@@ -399,7 +432,7 @@ module.exports = {'connect': connect, 'disconnect': disconnect,'initializeDataba
 'getRecipeByAmountOfGrain': getRecipeByAmountOfGrain, 'getRecipeByGrainName': getRecipeByGrainName,
 'getRecipeByYeastName': getRecipeByYeastName, 'getRecipeByHopsName': getRecipeByHopsName, 'getStyleByRecipe': getStyleByRecipe,
 'addHops': addHops, 'addGrain': addGrain, 'addYeast': addYeast,
-'addAdditive': addAdditive, 'disconnect': disconnect, 'disconnect': disconnect,
+'addAdditive': addAdditive, 'getIBUByRecipe': getIBUByRecipe, 'getABVByRecipe': getABVByRecipe,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect,
 'disconnect': disconnect, 'disconnect': disconnect, 'disconnect': disconnect};
