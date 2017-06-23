@@ -3,36 +3,39 @@
 # Hops Table
 INSERT INTO hops(name, description, alpha_acid, purpose)
 VALUES('Cascade 5.5AA', null, 5.5,'aroma'),
+  ('Citra 11AA', null, 11,'dual'),
   ('Centennial 9AA', null, 9,'dual'),
   ('Horizon 13AA', null, 13,'bitter'),
   ('Amarillo 9AA', null, 9,'dual'),
   ('Simcoe 12AA', null, 12,'bitter');
 
 # Grain Table
-INSERT INTO grain(name, potential_extract, lovibonds)
-VALUES('Vienna Malt', 35, 4),
-  ('White Wheat Malt', 37, 2),
-  ('Victory Malt', 34, 25),
-  ('Dextrin (carapils)', 33, 1),
-  ('Black Barley', 25, 525),
-  ('Crystal Malt 10', 34, 10),
-  ('Crystal Malt 20', 34, 20),
-  ('Crystal Malt 30', 34, 30),
-  ('Crystal Malt 40', 34, 40),
-  ('Crystal Malt 50', 34, 50),
-  ('Crystal Malt 60', 34, 60),
-  ('Crystal Malt 70', 34, 70),
-  ('Crystal Malt 80', 34, 80),
-  ('Crystal Malt 90', 34, 90),
-  ('Crystal Malt 120', 34, 120),
-  ('2-row Pale Malt', 37, 1),
-  ('6-row Pale Malt', 35, 1),
-  ('Special Roast', 35, 50),
-  ('Wheat Malt', 38, 2),
-  ('Chocolate Malt', 34, 350),
-  ('RoastedBarley', 25, 300),
-  ('Munich Malt', 34, 10),
-  ('Black Patent Malt', 26, 500);
+INSERT INTO grain(name, region, potential_extract, lovibonds)
+VALUES('Vienna Malt', null, 35, 4),
+  ('White Wheat Malt', null, 37, 2),
+  ('Victory Malt', null, 34, 25),
+  ('Dextrin (carapils)', null, 33, 1),
+  ('Black Barley', null, 25, 525),
+  ('Crystal Malt 10', null, 34, 10),
+  ('Crystal Malt 20', null, 34, 20),
+  ('Crystal Malt 30', null, 34, 30),
+  ('Crystal Malt 40', null, 34, 40),
+  ('Crystal Malt 50', null, 34, 50),
+  ('Crystal Malt 60', null, 34, 60),
+  ('Crystal Malt 70', null, 34, 70),
+  ('Crystal Malt 80', null, 34, 80),
+  ('Crystal Malt 90', null, 34, 90),
+  ('Crystal Malt 120', null, 34, 120),
+  ('Melanoidin', 'German', 37, 25),
+  ('2-row Pale Malt', null, 37, 1),
+  ('6-row Pale Malt', null, 35, 1),
+  ('Special Roast', null, 35, 50),
+  ('Wheat Malt', null, 38, 2),
+  ('Chocolate Malt', null, 34, 350),
+  ('RoastedBarley', null, 25, 300),
+  ('Munich Malt', null, 34, 10),
+  ('Munich Malt Light', null, 37, 6),
+  ('Black Patent Malt', null, 26, 500);
 
 # Yeast Table
 INSERT INTO yeast(name, region, apparent_attenuation, yeast_type)
@@ -63,6 +66,12 @@ VALUES('WLP001 California Ale', 'American', 0.75, 'ale'),
   ('WLP630 Berliner Weisse Blend', 'Berlin', 0.77, 'other'),
   ('WLP665 Flemish Ale Blend', 'Belgian', 0.71, 'ale'),
   ('WLP670 American Farmhouse Blend', 'American', 0.79, 'ale');
+
+# Additive Table
+INSERT INTO additive(name, description, use_case)
+VALUES('Whirloc', null, 'fining'),
+  ('Irish Moss', null, 'fining');
+
 
 # Beer Style Table
 INSERT INTO beer_style(name, min_bitterness, max_bitterness, min_color, max_color, min_ABV, max_ABV)
@@ -142,6 +151,68 @@ VALUES(@hops,@recipe, 2, 10);
 SET @yeast = (SELECT yeast.id FROM yeast WHERE name='WLP001 California Ale');
 INSERT INTO yeast_in_recipe(yeast_id, recipe_id)
 VALUES(@yeast,@recipe);
+# Add american pale ale style
+SET @style = (SELECT beer_style.id FROM beer_style WHERE name='American Pale Ale');
+INSERT INTO style_of_recipe(style_id, recipe_id)
+VALUES(@style,@recipe);
+
+# Build recipe for Zombie Dust Clone
+INSERT INTO beer_recipe(name, boil_time, description, instructions)
+VALUES('Zombie Dust Clone Pale Ale', 60, null, 'https://www.brewersfriend.com/homebrew/recipe/view/280731/zombie-dust-clone-brain-eater');
+# grabs last auto_increment id used
+SET @recipe = (SELECT beer_recipe.id FROM beer_recipe WHERE beer_recipe.id=LAST_INSERT_ID());
+# Add 11lbs of 2-row pale malt
+SET @grain = (SELECT grain.id FROM grain WHERE name='2-row Pale Malt');
+INSERT INTO grain_in_recipe(grain_id, recipe_id, amount)
+VALUES(@grain,@recipe, 12);
+# Add 0.5 lbs of munich malt light
+SET @grain = (SELECT grain.id FROM grain WHERE name='Munich Malt Light');
+INSERT INTO grain_in_recipe(grain_id, recipe_id, amount)
+VALUES(@grain,@recipe, 1.5);
+# Add 0.5 lbs of Melanoidin
+SET @grain = (SELECT grain.id FROM grain WHERE name='Melanoidin');
+INSERT INTO grain_in_recipe(grain_id, recipe_id, amount)
+VALUES(@grain,@recipe, 0.5);
+# Add 0.5 lbs of carapils
+SET @grain = (SELECT grain.id FROM grain WHERE name LIKE '%Carapils%');
+INSERT INTO grain_in_recipe(grain_id, recipe_id, amount)
+VALUES(@grain,@recipe, 0.5);
+# Add 0.5 lbs of crystal malt 60
+SET @grain = (SELECT grain.id FROM grain WHERE name='Crystal Malt 60');
+INSERT INTO grain_in_recipe(grain_id, recipe_id, amount)
+VALUES(@grain,@recipe, 0.5);
+# Add 0.5 oz of citra hops
+SET @hops = (SELECT hops.id FROM hops WHERE name LIKE '%Citra%');
+INSERT INTO hops_in_recipe(hops_id, recipe_id, amount, exposure_time)
+VALUES(@hops,@recipe, 0.5, 60);
+# Add 1 oz of citra hops
+SET @hops = (SELECT hops.id FROM hops WHERE name LIKE '%Citra%');
+INSERT INTO hops_in_recipe(hops_id, recipe_id, amount, exposure_time)
+VALUES(@hops,@recipe, 1, 15);
+# Add 1 oz of citra hops
+SET @hops = (SELECT hops.id FROM hops WHERE name LIKE '%Citra%');
+INSERT INTO hops_in_recipe(hops_id, recipe_id, amount, exposure_time)
+VALUES(@hops,@recipe, 1, 10);
+# Add 1 oz of citra hops
+SET @hops = (SELECT hops.id FROM hops WHERE name LIKE '%Citra%');
+INSERT INTO hops_in_recipe(hops_id, recipe_id, amount, exposure_time)
+VALUES(@hops,@recipe, 1, 5);
+# Add 1 oz of citra hops
+SET @hops = (SELECT hops.id FROM hops WHERE name LIKE '%Citra%');
+INSERT INTO hops_in_recipe(hops_id, recipe_id, amount, exposure_time)
+VALUES(@hops,@recipe, 1, 0);
+# Add 3 oz of citra hops
+SET @hops = (SELECT hops.id FROM hops WHERE name LIKE '%Citra%');
+INSERT INTO hops_in_recipe(hops_id, recipe_id, amount, exposure_time)
+VALUES(@hops,@recipe, 3, -7);
+# Add california ale yeast
+SET @yeast = (SELECT yeast.id FROM yeast WHERE name='WLP001 California Ale');
+INSERT INTO yeast_in_recipe(yeast_id, recipe_id)
+VALUES(@yeast,@recipe);
+# Add 3 oz of citra hops
+SET @additive = (SELECT additive.id FROM additive WHERE name LIKE '%Whirloc%');
+INSERT INTO additive_in_recipe(additive_id, recipe_id, amount, exposure_time)
+VALUES(@additive,@recipe, 1, 20);
 # Add american pale ale style
 SET @style = (SELECT beer_style.id FROM beer_style WHERE name='American Pale Ale');
 INSERT INTO style_of_recipe(style_id, recipe_id)

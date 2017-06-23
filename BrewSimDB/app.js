@@ -16,7 +16,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -50,17 +50,16 @@ dotenv.load();
 
 //DB setup, initialize FIRST then connect.
 databaseHandler.initializeDatabase(path.join(__dirname, 'data'));
+databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
 
 
 
 var item_type = {};
 app.get('/', function(req, res) {
-    // for whatever reason (probably async) if I put the connect line directly below the initializeDatabase line it can't connect because the database doesn't exist yet. Putting it here gives the database initialization time to complete first.
-    databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
     console.log("entered into main page.");
 
     // below is query testing line. Will display names of results to index.
-    databaseHandler.getStyleByName('IPA',function (result) {
+    databaseHandler.getAdditiveByName('test',function (result) {
         console.log('returned this: ' + result);
         item_type = {'print' : result};
         res.render('index', item_type);
@@ -68,13 +67,15 @@ app.get('/', function(req, res) {
 });
 
 // Query Routes
-app.get('/query', function(req, res) {
+app.get('/query', function(req, res) {  
+  databaseHandler.addAdditive('test additive');
   res.render('QueryUI', {hops : {}})
 });
 
 app.post('/query', function(req, res){
   
   console.dir(req.body);
+
 });
 
 // catch 404 and forward to error handler
