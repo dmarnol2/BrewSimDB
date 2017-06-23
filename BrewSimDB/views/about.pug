@@ -1,0 +1,37 @@
+extends layout
+block content
+
+  head
+    style.
+
+      p {
+      margin: 38px 0 0 0;
+      }
+
+      p.padding {
+      padding-left: 27%;
+      padding-right: 27%;
+      }
+
+      ul.padding {
+      padding-left: 28%;
+      
+      }
+
+    title About
+  body
+    h2(align='center') - BrewSim DB -
+    p.padding(align='justify')
+      | This is a database application written for the class Database Management, SER 322 at Arizona State University. The database is a MySQL database, and the application is written with node.js, express.js, and pug.
+    p.padding(align='justify')
+      | The application domain of the BrewSim Database provides information on beer brewing recipes. This includes what ingredients are needed, basic information on each ingredient, necessary instructions for someone who is familiar with homebrewing, and the ability to check if a recipe fits a certain style guideline as defined by the Brewers Association. The database application would be able to store information about beer recipes and output expected information about the beer brewed by the recipe, such as bitterness, alcohol content, and color.
+    p.padding(align='justify')
+      | Please vist the 
+      a(href='https://github.com/dmarnol2/BrewSimDB') BrewSimDB GitHub repo
+      |  to learn more.
+      h2(align='center') - Authors -
+    div
+      ul.padding
+        li Kristofer Hoadley
+        li David Arnold
+        li Gabriel Martinez

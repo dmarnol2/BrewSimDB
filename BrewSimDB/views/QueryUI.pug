@@ -1,86 +1,77 @@
 extends layout
 
 block content
-  h3  Query the Brewsim Database 
-  form
-    p Find an ingredient:
-    | Ingredint Name:
-    input(type='string', name='IngredientName')
-    | Category:
-    select
-      option(value='Hops') Hops
-      option(value='Grain') Grain
-      option(value='Yeast') Yeast
-      option(value='Beer Style') Beer Style
-      option(value='Beer Recipe') Beer Recipe
-    input(type='Submit', name='submitRange', value='Submit')
-    br
-    br
-    p Find hops within a certain Alpha Acid range:
-    | Beginning value:
-    input(type='number', name='HopRangeStart')
-    | Ending value:
-    input(type='number', name='HopRangeEnd')
-    input(type='Submit', name='submitRange', value='Submit')
-    br
-    br
-    p Find beers within a certain IBU (Bitterness) range:
-    | Beginning value: 
-    input(type='number', name='IBURangeStart')
-    | Ending value:
-    input(type='number', name='IBURangeEnd')
-    input(type='Submit', name='submitIBU', value='Submit')
-    br
-    br
-    p Find beers within a certain ABV (% Alcohol) range:
-    | Beginning value: 
-    input(type='number', name='IBURangeStart')
-    | Ending value:
-    input(type='number', name='IBURangeEnd')
-    input(type='Submit', name='submitIBU', value='Submit')
-    br
-    br
-    p Search recipes containing:
-    input(type='checkbox', value='Barley')
-    label(for='Barley') Barley
-    input(type='checkbox', value='Cascade')
-    label(for='Cascade') Cascade
-    br
-    input(type='checkbox', value='Wheat')
-    label(for='Wheat') Wheat
-    input(type='checkbox', value='Chinook')
-    label(for='Chinook') Chinook
-    br
-    input(type='checkbox', value='Oat')
-    label(for='Oat') Oat
-    input(type='checkbox', value='Citra')
-    label(for='Citra') Citra
-    br
-    input(type='checkbox', value='Rice')
-    label(for='Rice') Rice
-    input(type='checkbox', value='Simcoe')
-    label(for='Simcoe') Simcoe
-    br
-    input(type='checkbox', value='Corn')
-    label(for='Corn') Corn
-    input(type='checkbox', value='Mosaic')
-    label(for='Mosaic') Mosaic
-    br
-    input(type='checkbox', value='Rye')
-    label(for='Rye') Rye
-    input(type='checkbox', value='Cluster')
-    label(for='Cluster') Cluster
-    input(type='Submit', name='submitGrain', value='Submit')
-    br
-    br
-  p Search recipes containing yeast from:
-  select
-    option(value='') Select Region
-    option(value='American') American
-    option(value='Irish') Irish
-    option(value='Belgian') Belgian
-    option(value='English') English
-    option(value='German') German
-  input(type='Submit', name='submitRegion', value='Submit')
-  br
-  br
+  .text-center.query-title
+    h3  Query the Brewsim Database 
+  .container.db-query
+    form(action='/query', method='post')
+      p By Ingredient:
+      
+      .row
+        .row.col-6
+          .col-6
+            label 
+              strong Ingredient Name:
+            input(type='string', name='IngredientName')
+          .col-6
+            label
+              strong Category:
+            select.form-control
+              option(value='Hops') Hops
+              option(value='Grain') Grain
+              option(value='Yeast') Yeast
+              option(value='Beer Style') Beer Style
+              option(value='Beer Recipe') Beer Recipe
+      
+      .row(style="margin: 50px 0; font-size: 18px;")
+        strong - OR BY -
+      .row
+        .col-4
+          label
+            strong Alpha Acid range:
+          .row
+            .form-group.row.col-6
+              label.col-6 Min value
+              input.col-6(type='number', name='HopRangeStart')
+            .form-group.row.col-6
+              label.col-6 Max value
+              input.col-6(type='number', name='HopRangeEnd')
+        .col-4
+          label
+            strong IBU (Bitterness) range:
+          .row
+            .form-group.row.col-6
+              label.col-6 Min value
+              input.col-6(type='number', name='IBURangeStart')
+            .form-group.row.col-6
+              label.col-6 Max value
+              input.col-6(type='number', name='IBURangeEnd')
+        .col-4
+          label
+            strong ABV (% Alcohol) range:
+          .row
+            .form-group.row.col-6
+              label.col-6 Min value
+              input.col-6(type='number', name='ABVStart')
+            .form-group.row.col-6
+              label.col-6 Max value
+              input.col-6(type='number', name='ABVEnd')
+
+      p Search Hops:
+      select
+        for hop in hops
+          option( selected=hop == hop ) #{hop.name}
+          
+
+
+      select.form-control
+        option(name= 'country', value='') Select Region
+        option(name= 'country', value='American') American
+        option(name= 'country', value='Irish') Irish
+        option(name= 'country', value='Belgian') Belgian
+        option(name= 'country', value='English') English
+        option(name= 'country', value='German') Germa
+      br
+      br
+
+      input.btn.btn-success(type='Submit', value='Submit')

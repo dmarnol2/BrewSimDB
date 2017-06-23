@@ -65,9 +65,21 @@ app.get('/', function(req, res) {
         res.render('index', item_type);
     })
 });
+app.get('/about', function(req, res) {
+    //databaseHandler.addAdditive('test additive');
+    res.render('About');
+});
 
-app.get('/query', function(req, res) {
-  res.render('QueryUI')
+// Query Routes
+app.get('/query', function(req, res) {  
+  databaseHandler.addAdditive('test additive');
+  res.render('QueryUI', {hops : {}})
+});
+
+app.post('/query', function(req, res){
+  
+  console.dir(req.body);
+
 });
 
 
