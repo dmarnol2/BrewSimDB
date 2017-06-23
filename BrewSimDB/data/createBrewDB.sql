@@ -37,7 +37,7 @@ CREATE TABLE yeast(
   #Below is unique attributes
   region VARCHAR(30),
   brand VARCHAR(30),
-  apparent_attenuation INT(3) NOT NULL, #percentage, usually 65%-80%
+  apparent_attenuation DOUBLE(3,2) NOT NULL, #percentage, usually 65%-80%
   yeast_type ENUM('ale','lager','other') NOT NULL
 );
 
