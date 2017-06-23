@@ -73,6 +73,7 @@ app.get('/query', function(req, res) {
 });
 
 app.post('/query', function(req, res){
+  
   console.dir(req.body);
 });
 
