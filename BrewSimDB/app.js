@@ -59,7 +59,7 @@ app.get('/', function(req, res) {
     console.log("entered into main page.");
 
     // below is query testing line. Will display names of results to index.
-    databaseHandler.getIBUByRecipe('Zombie Dust Clone Pale Ale',function (result) {
+    databaseHandler.getAdditiveByName('test',function (result) {
         console.log('returned this: ' + result);
         item_type = {'print' : result};
         res.render('index', item_type);
@@ -81,7 +81,6 @@ app.post('/query', function(req, res){
   console.dir(req.body);
 
 });
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

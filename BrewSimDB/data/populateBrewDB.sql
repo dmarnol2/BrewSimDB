@@ -1,10 +1,5 @@
 # This should only be run once, right after running createBrewDB.
 
-# Equipment Table
-
-INSERT INTO equipment(batch_size, extract_efficeny)
-VALUES(5,0.70); # default values, 5 gallon batch with 70% efficiency
-
 # Hops Table
 INSERT INTO hops(name, description, alpha_acid, purpose)
 VALUES('Cascade 5.5AA', null, 5.5,'aroma'),
