@@ -6,30 +6,46 @@ block content
   .container.db-query
     form(action='/query', method='post')
       p Search By Ingredient: (to see all in a category, search " ")
-      
+
       .row
-        .row.col-6
-          .col-6
-            label 
+        .row.col-12
+          .col-12
+            label
               strong Yeast Name:
+            br
             input(type='string', name='YeastName')
+            br
             label
               strong Hop Name:
+            br
             input(type='string', name='HopName')
+            br
             label
               strong Grain Name:
+            br
             input(type='string', name='GrainName')
+            br
             label
               strong Style Name:
+            br
             input(type='string', name='StyleName')
+            br
             label
               strong Recipe Name:
+            br
             input(type='string', name='RecipeName')
+            br
             label
-              strong ABV of recipe by Name:
+              strong ABV of recipe by Name:(for example enter "Hoppiness is an IPA", is case sensitive)
+            br
             input(type='string', name='ABVbyRecipeName')
+            br
+            label
+              strong IBU of recipe by Name: (for example enter "Zombie Dust Clone Pale Ale", is case sensitive)
+            br
+            input(type='string', name='IBUbyRecipeName')
 
-      
+
       .row(style="margin: 50px 0; font-size: 18px;")
         strong - OR BY -
       .row
@@ -43,14 +59,14 @@ block content
             .form-group.row.col-6
               label.col-6 Max value
               input.col-6(type='number', name='HopRangeEnd')
-        
-          
+
+
       br
       br
-      label 
+      label
         strong Search Yeast from:
 
-          
+
 
 
       select.form-control
