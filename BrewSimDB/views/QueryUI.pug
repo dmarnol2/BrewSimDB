@@ -13,6 +13,7 @@ block content
             label 
               strong Ingredient Name:
             input(type='string', name='IngredientName')
+            input.btn.btn-success(type='Submit', value='Submit')
           .col-6
             label
               strong Category:
@@ -28,7 +29,7 @@ block content
       .row
         .col-4
           label
-            strong Alpha Acid range:
+            strong Hops in Alpha Acid range:
           .row
             .form-group.row.col-6
               label.col-6 Min value
@@ -38,7 +39,7 @@ block content
               input.col-6(type='number', name='HopRangeEnd')
         .col-4
           label
-            strong IBU (Bitterness) range:
+            strong Beers in IBU (Bitterness) range:
           .row
             .form-group.row.col-6
               label.col-6 Min value
@@ -48,7 +49,7 @@ block content
               input.col-6(type='number', name='IBURangeEnd')
         .col-4
           label
-            strong ABV (% Alcohol) range:
+            strong Beers in ABV (% Alcohol) range:
           .row
             .form-group.row.col-6
               label.col-6 Min value
@@ -57,10 +58,11 @@ block content
               label.col-6 Max value
               input.col-6(type='number', name='ABVEnd')
 
-      p Search Hops:
-      select
-        for hop in hops
-          option( selected=hop == hop ) #{hop.name}
+      br
+      br
+      label 
+        strong Search Yeast from:
+
           
 
 
@@ -70,8 +72,9 @@ block content
         option(name= 'country', value='Irish') Irish
         option(name= 'country', value='Belgian') Belgian
         option(name= 'country', value='English') English
-        option(name= 'country', value='German') Germa
+        option(name= 'country', value='German') German
       br
       br
 
       input.btn.btn-success(type='Submit', value='Submit')
+      
