@@ -1,58 +1,65 @@
 extends layout
-
 block content
-  .text-center.query-title
-    h3  Query the BrewSim Database 
-  .container.db-query
-    form(action='/query', method='post')
-      p Search By Ingredient:
-      
-      .row
-        .row.col-6
-          .col-6
-            label 
-              strong Yeast Name:
-            input(type='string', name='YeastName')
-            label
-              strong Hop Name:
-            input(type='string', name='HopName')
-            label
-              strong Grain Name:
-            input(type='string', name='GrainName')
 
-      
-      .row(style="margin: 50px 0; font-size: 18px;")
-        strong - OR BY -
-      .row
-        .col-4
-          label
-            strong Hops in Alpha Acid range:
-          .row
-            .form-group.row.col-6
-              label.col-6 Min value
-              input.col-6(type='number', name='HopRangeStart')
-            .form-group.row.col-6
-              label.col-6 Max value
-              input.col-6(type='number', name='HopRangeEnd')
-        
-          
-      br
-      br
-      label 
-        strong Search Yeast from:
+	.text-center.query-title
+		h3  Query the BrewSim Database
 
-          
-
-
-      select.form-control
-        option(name= 'country', value='') Select Region
-        option(name= 'country', value='American') American
-        option(name= 'country', value='Irish') Irish
-        option(name= 'country', value='Belgian') Belgian
-        option(name= 'country', value='English') English
-        option(name= 'country', value='German') German
-      br
-      br
-
-      input.btn.btn-success(type='Submit', value='Submit')
-      
+		form.form-inline
+	label.mr-sm-2(for='inlineFormCustomSelect') Preference
+	select#inlineFormCustomSelect.custom-select.mb-2.mr-sm-2.mb-sm-0
+		option(selected='') Choose...
+		option(value='1') One
+		option(value='2') Two
+		option(value='3') Three
+	label.custom-control.custom-checkbox.mb-2.mr-sm-2.mb-sm-0
+		input.custom-control-input(type='checkbox')
+		span.custom-control-indicator
+		span.custom-control-description Remember my preference
+	button.btn.btn-primary(type='submit') Submit
+	.container.db-query
+		form(action='/query', method='post')
+			p Search By Ingredient:
+			.row
+				.row.col-6
+					.col-6
+						label
+							strong Yeast Name:
+						input(type='string', name='YeastName')
+						input.btn.btn-success(type='Submit', value='Submit')
+						br
+						label
+							strong Hop Name:
+						input(type='string', name='HopName')
+						input.btn.btn-success(type='Submit', value='Submit')
+						br
+						label
+							strong Grain Name:
+						input(type='string', name='GrainName')
+						input.btn.btn-success(type='Submit', value='Submit')
+			.row(style='margin: 50px 0; font-size: 18px;')
+				strong - OR BY -
+			.row
+				.col-4
+					label
+						strong Hops in Alpha Acid range:
+					.row
+						.form-group.row.col-6
+							label.col-6 Min value
+							input.col-6(type='number', name='HopRangeStart')
+						.form-group.row.col-6
+							label.col-6 Max value
+							input.col-6(type='number', name='HopRangeEnd')
+			br
+			br
+			label
+				strong Search Yeast from:
+			select.form-control
+				option(name='country', value='') Select Region
+				option(name='country', value='American') American
+				option(name='country', value='Irish') Irish
+				option(name='country', value='Belgian') Belgian
+				option(name='country', value='English') English
+				option(name='country', value='German') German
+			br
+			br
+			input.btn.btn-success(type='Submit', value='Submit')
