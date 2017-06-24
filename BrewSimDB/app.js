@@ -72,7 +72,6 @@ app.get('/query', function(req, res) {
     });
 
 app.post('/query', function(req, res){
-    console.dir(req.body.YeastName);
     if(req.body.YeastName != "") {
         databaseHandler.getYeastByName(req.body.YeastName, function (result) {
             console.log('returned this: ' + result);
@@ -80,55 +79,54 @@ app.post('/query', function(req, res){
             res.render('results', item_type);
         });
     }
-
-    console.dir(req.body.HopName);
-    if(req.body.HopName != "") {
+    else if(req.body.HopName != "") {
         databaseHandler.getHopsByName(req.body.HopName,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
         });
     }
-    console.dir(req.body.GrainName);
-    if(req.body.GrainName != "") {
+    else if(req.body.GrainName != "") {
         databaseHandler.getGrainByName(req.body.GrainName,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
         });
     }
-    console.dir(req.body.StyleName);
-    if(req.body.StyleName != "") {
+    else if(req.body.StyleName != "") {
         databaseHandler.getStyleByName(req.body.StyleName,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
         });
     }
-    console.dir(req.body.RecipeName);
-    if(req.body.RecipeName != "") {
+    else if(req.body.RecipeName != "") {
         databaseHandler.getRecipeByName(req.body.RecipeName,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
         });
     }
-    if(req.body.ABVbyRecipeName != "") {
+    else if(req.body.ABVbyRecipeName != "") {
         databaseHandler.getABVByRecipe(req.body.ABVbyRecipeName,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
         });
-
     }
-
-    if(req.body.HopRangeStart != null && req.body.HopRangeEnd != null){
+    else if(req.body.IBUbyRecipeName != "") {
+        databaseHandler.getIBUByRecipe(req.body.IBUbyRecipeName,function (result) {
+            console.log('returned this: ' + result);
+            item_type = {'print' : result};
+            res.render('results', item_type);
+        });
+    }
+    else if(req.body.HopRangeStart != null && req.body.HopRangeEnd != null){
         databaseHandler.getHopsByAA(req.body.HopRangeStart, req.body.HopRangeEnd,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
         });
-
     }
 });
 
