@@ -57,53 +57,36 @@ var item_type = {};
 
 app.get('/', function(req, res) {
     console.log("entered into main page.");
-    // res.render('QueryUI', {hops : {}})
-    
-    //console.log("clone is "+clone);
+    res.render('QueryUI', {hops : {}})
+	});
 
-    // below is query testing line. Will display names of results to index.
-
-   //databaseHandler.getIBUByRecipe(clone,function (result) {
-  //console.log('returned this: ' + result);
-  //item_type = {'print' : result};
-  //res.render('index', item_type);
-  //});
-  
-  
-});
 app.get('/about', function(req, res) {
-    //databaseHandler.addAdditive('test additive');
-  res.render('About');
-});
+    res.render('About');
+	});
 
-// Query Routes
+
 app.get('/query', function(req, res) {  
-  //databaseHandler.addAdditive('test additive');
-res.render('QueryUI', {hops : {}})
-});
+  	res.render('QueryUI', {hops : {}})
+	});
 
 app.post('/query', function(req, res){
-
-
-
- console.dir(req.body.YeastName);
-  var clone=req.body.YeastName;
-  if (clone=="Irish"){
-  databaseHandler.getYeastByName(clone,function (result) {
-  console.log('returned this: ' + result);
-  item_type = {'print' : result};
-  res.render('index', item_type);
-  }); 
-}
-else if(req.body.HopName=="Citra"){
-databaseHandler.getHopsByName(clone,function (result) {
-  console.log('returned this: ' + result);
-  item_type = {'print' : result};
-  res.render('index', item_type);
-  }); 	
+	console.dir(req.body.YeastName);
+  	var clone=req.body.YeastName;
+  	if (clone=="Irish"){
+  	databaseHandler.getYeastByName(clone,function (result) {
+  	console.log('returned this: ' + result);
+  	item_type = {'print' : result};
+  	res.render('index', item_type);
+	}); 
 }
 
-
+	else if(req.body.HopName=="Citra"){
+		databaseHandler.getHopsByName(req.body.HopName,function (result) {
+  		console.log('returned this: ' + result);
+  		item_type = {'print' : result};
+  		res.render('index', item_type);
+  		}); 	
+	}
 });
 
 
@@ -112,7 +95,7 @@ app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
-});
+	});
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -123,9 +106,10 @@ app.use(function(err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render('error');
-});
+	});
+
 app.listen(3000, function() {
     console.log(process.env.DB_USER)
-});
+	});
 
 module.exports = app;
