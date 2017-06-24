@@ -56,11 +56,11 @@ var item_type = {};
 app.get('/', function(req, res) {
     console.log("entered into main page.");
     res.render('QueryUI', {hops : {}})
-	});
+    });
 
 app.get('/about', function(req, res) {
     res.render('About');
-	});
+    });
 
 app.get('/results', function(req, res) {
     res.render('results');
@@ -68,12 +68,12 @@ app.get('/results', function(req, res) {
 
 
 app.get('/query', function(req, res) {
-  	res.render('QueryUI', {hops : {}})
-	});
+    res.render('QueryUI', {hops : {}})
+    });
 
 app.post('/query', function(req, res){
-	console.dir(req.body.YeastName);
-  	if(req.body.YeastName != "") {
+    console.dir(req.body.YeastName);
+    if(req.body.YeastName != "") {
         databaseHandler.getYeastByName(req.body.YeastName, function (result) {
             console.log('returned this: ' + result);
             item_type = {'print': result};
@@ -121,7 +121,7 @@ app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
-	});
+    });
 
 // error handler
 app.use(function(err, req, res, next) {
@@ -132,10 +132,10 @@ app.use(function(err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render('error');
-	});
+    });
 
 app.listen(3000, function() {
     console.log(process.env.DB_USER)
-	});
+    });
 
 module.exports = app;
