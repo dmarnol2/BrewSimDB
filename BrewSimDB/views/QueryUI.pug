@@ -6,7 +6,7 @@ block content
     h3  Query the BrewSim Database 
   .container.db-query
     form(action='/query', method='post')
-      p Search By Ingredient:
+      p Search By Ingredient: (to see all in a category, search " ")
       
       .row
         .row.col-6
@@ -26,6 +26,9 @@ block content
             label
               strong Recipe Name:
             input(type='string', name='RecipeName')
+            label
+              strong ABV of recipe by Name:
+            input(type='string', name='ABVbyRecipeName')
 
       
       .row(style="margin: 50px 0; font-size: 18px;")
