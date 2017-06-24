@@ -147,18 +147,25 @@ app.post('/query', function(req, res){
             res.render('results', item_type);
         });
     }
+    else if(req.body.HopsNameInput != "" && req.body.HopsAAInput >0) {
+  	    var purpose = (req.body.HopsAAInput > 9 ? "bitter" : "aroma");
+        databaseHandler.addHops(req.body.HopsNameInput, req.body.HopsAAInput, purpose);
+        res.render('QueryUI');
+    }
 
 
 
 
 
-    else if(req.body.HopRangeStart != null && req.body.HopRangeEnd != null){
+    else if(req.body.HopRangeStart > 0 && req.body.HopRangeEnd > req.body.HopRangeStart){
         databaseHandler.getHopsByAA(req.body.HopRangeStart, req.body.HopRangeEnd,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
         });
     }
+    else
+        res.render('QueryUI');
 });
 
 

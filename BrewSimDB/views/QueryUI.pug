@@ -1,7 +1,8 @@
 extends layout
+
 block content
   .text-center.query-title
-    h3  Query the BrewSim Database 
+    h3  Query the BrewSim Database
   .container.db-query
     form(action='/query', method='post')
       p Search By Ingredient: (to see all in a category, search "all")
@@ -59,6 +60,14 @@ block content
             br
             input(type='string', name='YeastbyRecipeName')
             br
+            label
+              strong Add Hops to Database:
+            br
+            weak Name:
+            input(type='string', name='HopsNameInput')
+            weak Alpha Acid:
+            input(type='float', name='HopsAAInput')
+            br
 
 
       .row(style="margin: 50px 0; font-size: 18px;")
@@ -73,8 +82,11 @@ block content
               input.col-6(type='number', name='HopRangeStart')
             .form-group.row.col-6
               label.col-6 Max value
-              input.col-6(type='number', name='HopRangeEnd'
-              
-			br
-			br
-			input.btn.btn-success(type='Submit', value='Submit')
+              input.col-6(type='number', name='HopRangeEnd')
+
+
+      br
+      br
+
+      input.btn.btn-success(type='Submit', value='Submit')
+
