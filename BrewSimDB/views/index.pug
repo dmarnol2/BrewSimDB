@@ -1,15 +1,16 @@
 extends layout
 
 block content
-  .text-center Welcome to BrewDB
+  .text-center BrewDB Query Results
   table#table
     thead
       tr
         th
-          = "name"
+          //= "Results of your Query"
     tbody
       if print.length>0
       each item, i in print
         tr
           td
             = item.name + " " + item.IBU
+   

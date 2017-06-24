@@ -39,6 +39,9 @@ function getAllHops(callback) {
         console.log(result);
     });
 }
+
+
+
 function getAllGrain(callback) {
     var sql = 'SELECT * FROM grain;'
 
