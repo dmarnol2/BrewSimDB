@@ -73,35 +73,40 @@ app.get('/query', function(req, res) {
 
 app.post('/query', function(req, res){
   	if(req.body.YeastName != "") {
-        databaseHandler.getYeastByName(req.body.YeastName, function (result) {
+        var  input = (req.body.YeastName == "all" ? "" : req.body.YeastName);
+        databaseHandler.getYeastByName(input, function (result) {
             console.log('returned this: ' + result);
             item_type = {'print': result};
             res.render('results', item_type);
         });
     }
     else if(req.body.HopName != "") {
-        databaseHandler.getHopsByName(req.body.HopName,function (result) {
+        var  input = (req.body.HopName == "all" ? "" : req.body.HopName);
+        databaseHandler.getHopsByName(input,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
         });
     }
     else if(req.body.GrainName != "") {
-        databaseHandler.getGrainByName(req.body.GrainName,function (result) {
+        var  input = (req.body.GrainName == "all" ? "" : req.body.GrainName);
+        databaseHandler.getGrainByName(input,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
         });
     }
     else if(req.body.StyleName != "") {
-        databaseHandler.getStyleByName(req.body.StyleName,function (result) {
+        var  input = (req.body.StyleName == "all" ? "" : req.body.StyleName);
+        databaseHandler.getStyleByName(input,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
         });
     }
     else if(req.body.RecipeName != "") {
-        databaseHandler.getRecipeByName(req.body.RecipeName,function (result) {
+        var  input = (req.body.RecipeName == "all" ? "" : req.body.RecipeName);
+        databaseHandler.getRecipeByName(input,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
             res.render('results', item_type);
@@ -121,6 +126,32 @@ app.post('/query', function(req, res){
             res.render('results', item_type);
         });
     }
+    else if(req.body.HopsbyRecipeName != "") {
+        databaseHandler.getHopsByRecipeName(req.body.HopsbyRecipeName,function (result) {
+            console.log('returned this: ' + result);
+            item_type = {'print' : result};
+            res.render('results', item_type);
+        });
+    }
+    else if(req.body.GrainbyRecipeName != "") {
+        databaseHandler.getGrainByRecipeName(req.body.GrainbyRecipeName,function (result) {
+            console.log('returned this: ' + result);
+            item_type = {'print' : result};
+            res.render('results', item_type);
+        });
+    }
+    else if(req.body.YeastbyRecipeName != "") {
+        databaseHandler.getYeastByRecipeName(req.body.YeastbyRecipeName,function (result) {
+            console.log('returned this: ' + result);
+            item_type = {'print' : result};
+            res.render('results', item_type);
+        });
+    }
+
+
+
+
+
     else if(req.body.HopRangeStart != null && req.body.HopRangeEnd != null){
         databaseHandler.getHopsByAA(req.body.HopRangeStart, req.body.HopRangeEnd,function (result) {
             console.log('returned this: ' + result);

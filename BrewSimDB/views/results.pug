@@ -12,7 +12,6 @@ block content
             each item, i in print
                 tr
                     to
-                        each attribute, i in item
-                            = i + ": " + attribute + "  |  "
+                        each attribute, j in item
+                            = j + ": " + attribute + "  |  "
                         br
-
