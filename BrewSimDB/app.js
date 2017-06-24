@@ -73,7 +73,7 @@ app.get('/query', function(req, res) {
 
 app.post('/query', function(req, res){
   	if(req.body.YeastName != "") {
-        var  input = (req.body.YeastName == "all" ? "" : "req.body.YeastName");
+        var  input = (req.body.YeastName == "all" ? "" : req.body.YeastName);
         databaseHandler.getYeastByName(input, function (result) {
             console.log('returned this: ' + result);
             item_type = {'print': result};
@@ -81,7 +81,7 @@ app.post('/query', function(req, res){
         });
     }
     else if(req.body.HopName != "") {
-        var  input = (req.body.HopName == "all" ? "" : "req.body.HopName");
+        var  input = (req.body.HopName == "all" ? "" : req.body.HopName);
         databaseHandler.getHopsByName(input,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
@@ -89,7 +89,7 @@ app.post('/query', function(req, res){
         });
     }
     else if(req.body.GrainName != "") {
-        var  input = (req.body.GrainName == "all" ? "" : "req.body.GrainName");
+        var  input = (req.body.GrainName == "all" ? "" : req.body.GrainName);
         databaseHandler.getGrainByName(input,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
@@ -97,7 +97,7 @@ app.post('/query', function(req, res){
         });
     }
     else if(req.body.StyleName != "") {
-        var  input = (req.body.StyleName == "all" ? "" : "req.body.StyleName");
+        var  input = (req.body.StyleName == "all" ? "" : req.body.StyleName);
         databaseHandler.getStyleByName(input,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
@@ -105,7 +105,7 @@ app.post('/query', function(req, res){
         });
     }
     else if(req.body.RecipeName != "") {
-        var  input = (req.body.RecipeName == "all" ? "" : "req.body.RecipeName");
+        var  input = (req.body.RecipeName == "all" ? "" : req.body.RecipeName);
         databaseHandler.getRecipeByName(input,function (result) {
             console.log('returned this: ' + result);
             item_type = {'print' : result};
