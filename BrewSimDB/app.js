@@ -51,34 +51,58 @@ dotenv.load();
 //DB setup, initialize FIRST then connect.
 databaseHandler.initializeDatabase(path.join(__dirname, 'data'));
 databaseHandler.connect('BrewSimDB', process.env.DB_USER, process.env.DB_PASSWORD);
-
-
-
 var item_type = {};
+
+
+
 app.get('/', function(req, res) {
     console.log("entered into main page.");
+    // res.render('QueryUI', {hops : {}})
+    
+    //console.log("clone is "+clone);
 
     // below is query testing line. Will display names of results to index.
-    databaseHandler.getIBUByRecipe('Zombie Dust Clone Pale Ale',function (result) {
-        console.log('returned this: ' + result);
-        item_type = {'print' : result};
-        res.render('index', item_type);
-    })
+
+   //databaseHandler.getIBUByRecipe(clone,function (result) {
+  //console.log('returned this: ' + result);
+  //item_type = {'print' : result};
+  //res.render('index', item_type);
+  //});
+  
+  
 });
 app.get('/about', function(req, res) {
     //databaseHandler.addAdditive('test additive');
-    res.render('About');
+  res.render('About');
 });
 
 // Query Routes
 app.get('/query', function(req, res) {  
-  databaseHandler.addAdditive('test additive');
-  res.render('QueryUI', {hops : {}})
+  //databaseHandler.addAdditive('test additive');
+res.render('QueryUI', {hops : {}})
 });
 
 app.post('/query', function(req, res){
-  
-  console.dir(req.body);
+
+
+
+ console.dir(req.body.YeastName);
+  var clone=req.body.YeastName;
+  if (clone=="Irish"){
+  databaseHandler.getYeastByName(clone,function (result) {
+  console.log('returned this: ' + result);
+  item_type = {'print' : result};
+  res.render('index', item_type);
+  }); 
+}
+else if(req.body.HopName=="Citra"){
+databaseHandler.getHopsByName(clone,function (result) {
+  console.log('returned this: ' + result);
+  item_type = {'print' : result};
+  res.render('index', item_type);
+  }); 	
+}
+
 
 });
 
