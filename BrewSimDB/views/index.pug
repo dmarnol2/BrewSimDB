@@ -11,6 +11,7 @@ block content
       if print.length>0
       each item, i in print
         tr
-          td
-            = item.name + " " + item.IBU
+          to
+            each attribute, i in item
+              = attribute + "  |  "
    
