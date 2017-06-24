@@ -1,5 +1,56 @@
 extends layout
 block content
+<<<<<<< HEAD
+=======
+  .text-center.query-title
+    h3  Query the BrewSim Database 
+  .container.db-query
+    form(action='/query', method='post')
+      p Search By Ingredient:
+      
+      .row
+        .row.col-6
+          .col-6
+            label 
+              strong Yeast Name:
+            input(type='string', name='YeastName')
+            label
+              strong Hop Name:
+            input(type='string', name='HopName')
+            label
+              strong Grain Name:
+            input(type='string', name='GrainName')
+            label
+              strong Style Name:
+            input(type='string', name='StyleName')
+            label
+              strong Recipe Name:
+            input(type='string', name='RecipeName')
+
+      
+      .row(style="margin: 50px 0; font-size: 18px;")
+        strong - OR BY -
+      .row
+        .col-4
+          label
+            strong Hops in Alpha Acid range:
+          .row
+            .form-group.row.col-6
+              label.col-6 Min value
+              input.col-6(type='number', name='HopRangeStart')
+            .form-group.row.col-6
+              label.col-6 Max value
+              input.col-6(type='number', name='HopRangeEnd')
+        
+          
+      br
+      br
+      label 
+        strong Search Yeast from:
+
+          
+
+>>>>>>> a5dc66ac60d55d00b3fb811a8d00ba554664c582
 
 	.text-center.query-title
 		h3  Query the BrewSim Database
