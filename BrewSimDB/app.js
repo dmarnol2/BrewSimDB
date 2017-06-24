@@ -113,6 +113,23 @@ app.post('/query', function(req, res){
             res.render('results', item_type);
         });
     }
+    if(req.body.ABVbyRecipeName != "") {
+        databaseHandler.getABVByRecipe(req.body.ABVbyRecipeName,function (result) {
+            console.log('returned this: ' + result);
+            item_type = {'print' : result};
+            res.render('results', item_type);
+        });
+
+    }
+
+    if(req.body.HopRangeStart != null && req.body.HopRangeEnd != null){
+        databaseHandler.getHopsByAA(req.body.HopRangeStart, req.body.HopRangeEnd,function (result) {
+            console.log('returned this: ' + result);
+            item_type = {'print' : result};
+            res.render('results', item_type);
+        });
+
+    }
 });
 
 
