@@ -83,15 +83,26 @@ res.render('QueryUI', {hops : {}})
 });
 
 app.post('/query', function(req, res){
-	console.log("zombie");
-  console.log(req.body.IngredientName);
-  console.dir(req.body);
-  var clone=req.body.IngredientName;
-  databaseHandler.getIBUByRecipe(clone,function (result) {
+
+
+
+ console.dir(req.body.YeastName);
+  var clone=req.body.YeastName;
+  if (clone=="Irish"){
+  databaseHandler.getYeastByName(clone,function (result) {
   console.log('returned this: ' + result);
   item_type = {'print' : result};
   res.render('index', item_type);
-  });
+  }); 
+}
+else if(req.body.HopName=="Citra"){
+databaseHandler.getHopsByName(clone,function (result) {
+  console.log('returned this: ' + result);
+  item_type = {'print' : result};
+  res.render('index', item_type);
+  }); 	
+}
+
 
 });
 

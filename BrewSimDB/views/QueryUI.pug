@@ -2,27 +2,28 @@ extends layout
 
 block content
   .text-center.query-title
-    h3  Query the Brewsim Database 
+    h3  Query the BrewSim Database 
   .container.db-query
     form(action='/query', method='post')
-      p By Ingredient:
+      p Search By Ingredient:
       
       .row
         .row.col-6
           .col-6
             label 
-              strong Ingredient Name:
-            input(type='string', name='IngredientName')
-            input.btn.btn-success(type='Submit', value='Submit')
-          .col-6
+              strong Yeast Name:
+            input(type='string', name='YeastName')
             label
-              strong Category:
-            select.form-control
-              option(value='Hops') Hops
-              option(value='Grain') Grain
-              option(value='Yeast') Yeast
-              option(value='Beer Style') Beer Style
-              option(value='Beer Recipe') Beer Recipe
+              strong Hop Name:
+            input(type='string', name='HopName')
+            label
+              strong Grain Name:
+            input(type='string', name='GrainName')
+
+
+
+
+
       
       .row(style="margin: 50px 0; font-size: 18px;")
         strong - OR BY -
@@ -39,7 +40,7 @@ block content
               input.col-6(type='number', name='HopRangeEnd')
         .col-4
           label
-            strong Beers in IBU (Bitterness) range:
+            strong Beer Recipe in IBU (Bitterness) range:
           .row
             .form-group.row.col-6
               label.col-6 Min value
@@ -49,7 +50,7 @@ block content
               input.col-6(type='number', name='IBURangeEnd')
         .col-4
           label
-            strong Beers in ABV (% Alcohol) range:
+            strong Beer Recipe in ABV (% Alcohol) range:
           .row
             .form-group.row.col-6
               label.col-6 Min value
