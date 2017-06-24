@@ -57,7 +57,7 @@ var item_type = {};
 
 app.get('/', function(req, res) {
     console.log("entered into main page.");
-    // res.render('QueryUI', {hops : {}})
+    res.render('QueryUI', {hops : {}})
     
     //console.log("clone is "+clone);
 
@@ -96,7 +96,7 @@ app.post('/query', function(req, res){
   }); 
 }
 else if(req.body.HopName=="Citra"){
-databaseHandler.getHopsByName(clone,function (result) {
+databaseHandler.getHopsByName(req.body.HopName,function (result) {
   console.log('returned this: ' + result);
   item_type = {'print' : result};
   res.render('index', item_type);
