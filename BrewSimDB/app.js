@@ -96,6 +96,14 @@ app.post('/query', function(req, res){
             res.render('results', item_type);
         });
     }
+    else if(req.body.AdditiveName != "") {
+        var  input = (req.body.AdditiveName == "all" ? "" : req.body.AdditiveName);
+        databaseHandler.getAdditiveByName(input,function (result) {
+            console.log('returned this: ' + result);
+            item_type = {'print' : result};
+            res.render('results', item_type);
+        });
+    }
     else if(req.body.StyleName != "") {
         var  input = (req.body.StyleName == "all" ? "" : req.body.StyleName);
         databaseHandler.getStyleByName(input,function (result) {
