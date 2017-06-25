@@ -88,7 +88,7 @@ function getAllBeerStyle(callback) {
     });
 }
 function getHopsByRecipeName(recipeName, callback) {
-    var sql = 'SELECT DISTINCT hops.*, hops_in_recipe.amount, hops_in_recipe.exposure_time, beer_recipe.name ' +
+    var sql = 'SELECT DISTINCT beer_recipe.name AS "Recipe Name", hops.*, hops_in_recipe.amount, hops_in_recipe.exposure_time ' +
         'FROM hops, beer_recipe, hops_in_recipe ' +
         'WHERE beer_recipe.name LIKE ? AND beer_recipe.id = hops_in_recipe.recipe_id AND hops.id = hops_in_recipe.hops_id;';
     recipeName = '\%' + recipeName + '\%';
@@ -100,7 +100,7 @@ function getHopsByRecipeName(recipeName, callback) {
     });
 }
 function getGrainByRecipeName(recipeName, callback) {
-    var sql = 'SELECT DISTINCT grain.*, grain_in_recipe.amount, beer_recipe.name ' +
+    var sql = 'SELECT DISTINCT beer_recipe.name AS "Recipe Name",  grain.*, grain_in_recipe.amount ' +
         'FROM grain, beer_recipe, grain_in_recipe ' +
         'WHERE beer_recipe.name LIKE ? AND beer_recipe.id = grain_in_recipe.recipe_id AND grain.id = grain_in_recipe.grain_id;';
     recipeName = '\%' + recipeName + '\%';
@@ -112,7 +112,7 @@ function getGrainByRecipeName(recipeName, callback) {
     });
 }
 function getYeastByRecipeName(recipeName, callback) {
-    var sql = 'SELECT DISTINCT yeast.*, beer_recipe.name ' +
+    var sql = 'SELECT DISTINCT beer_recipe.name AS "Recipe Name",  yeast.* ' +
         'FROM yeast, beer_recipe, yeast_in_recipe ' +
         'WHERE beer_recipe.name LIKE ? AND beer_recipe.id = yeast_in_recipe.recipe_id AND yeast.id = yeast_in_recipe.yeast_id;';
     recipeName = '\%' + recipeName + '\%';
@@ -124,7 +124,7 @@ function getYeastByRecipeName(recipeName, callback) {
     });
 }
 function getAdditiveByRecipeName(recipeName, callback) {
-    var sql = 'SELECT DISTINCT additive.*, additive_in_recipe.amount, beer_recipe.name ' +
+    var sql = 'SELECT DISTINCT beer_recipe.name AS "Recipe Name",  additive.*, additive_in_recipe.amount ' +
         'FROM additive, beer_recipe, additive_in_recipe ' +
         'WHERE beer_recipe.name LIKE ? AND beer_recipe.id = additive_in_recipe.recipe_id AND additive.id = additive_in_recipe.additive_id;';
     recipeName = '\%' + recipeName + '\%';
