@@ -2,10 +2,10 @@ extends layout
 
 block content
   .text-center.query-title
-    h3  Query the BrewSim Database 
+    h3  Query the BrewSim Database
   .container.db-query
     form(action='/query', method='post')
-      p Search By Ingredient: (to see all in a category, search " ")
+      p Search By Ingredient: (to see all in a category, search "all")
 
       .row
         .row.col-12
@@ -44,6 +44,30 @@ block content
               strong IBU of recipe by Name: (for example enter "Zombie Dust Clone Pale Ale", is case sensitive)
             br
             input(type='string', name='IBUbyRecipeName')
+            br
+            label
+              strong Hops of recipe by Name: (for example enter "Zombie Dust Clone Pale Ale", is case sensitive)
+            br
+            input(type='string', name='HopsbyRecipeName')
+            br
+            label
+              strong Grain of recipe by Name: (for example enter "Zombie Dust Clone Pale Ale", is case sensitive)
+            br
+            input(type='string', name='GrainbyRecipeName')
+            br
+            label
+              strong Yeast of recipe by Name: (for example enter "Zombie Dust Clone Pale Ale", is case sensitive)
+            br
+            input(type='string', name='YeastbyRecipeName')
+            br
+            label
+              strong Add Hops to Database:
+            br
+            weak Name:
+            input(type='string', name='HopsNameInput')
+            weak Alpha Acid:
+            input(type='float', name='HopsAAInput')
+            br
 
 
       .row(style="margin: 50px 0; font-size: 18px;")
@@ -63,6 +87,7 @@ block content
 
       br
       br
+
       label
         strong Search Yeast from:
 
