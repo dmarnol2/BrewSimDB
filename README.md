@@ -1,8 +1,8 @@
-# BrewSimDB
+# The Homebrewers Database
 
 
 This is a database application written for the class Database Management, SER 322 at Arizona State University. The database is a MySQL database, and the application is written with node.js, express.js, and pug.
-The application domain of the BrewSim Database provides information on beer brewing recipes. This includes what ingredients are needed, basic information on each ingredient, necessary instructions for someone who is familiar with homebrewing, and the ability to check if a recipe fits a certain style guideline as defined by the Brewers Association. The database application would be able to store information about beer recipes and output expected information about the beer brewed by the recipe, such as bitterness, alcohol content, and color.
+The application domain of the Homebrewers Database provides information on beer brewing recipes. This includes what ingredients are needed, basic information on each ingredient, necessary instructions for someone who is familiar with homebrewing, and the ability to check if a recipe fits a certain style guideline as defined by the Brewers Association. The database application would be able to store information about beer recipes and output expected information about the beer brewed by the recipe, such as bitterness, alcohol content, and color.
 
 
 ## Getting Started
